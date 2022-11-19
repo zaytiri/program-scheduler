@@ -81,7 +81,7 @@ class Scheduler:
             case self.sunday:
                 scheduler = scheduler.sunday
 
-        scheduler = scheduler.at(time_to_schedule).do(self._method_to_schedule)
+        scheduler.at(time_to_schedule).do(self._method_to_schedule)
 
     @staticmethod
     def _get_now_date():

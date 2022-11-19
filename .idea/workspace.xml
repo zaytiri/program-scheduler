@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73a816dd-0b06-4fdb-b1ef-b461a951c9bf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/progscheduler/entities/program.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/progscheduler/scheduler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/progscheduler/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/progscheduler/entities/prog_arguments.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/entities/prog_arguments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/progscheduler/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/scheduler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
