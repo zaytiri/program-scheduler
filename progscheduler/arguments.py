@@ -1,6 +1,7 @@
 from progscheduler.services.directory import Directory
 from entities.prog_arguments import ProgArguments
 from configurations.configurations import Configurations
+from progscheduler.utils.error import throw
 from utils.progsettings import get_version
 import argparse
 
@@ -46,14 +47,42 @@ class Arguments:
         """
         self.args.add_argument('--version', action='version', version='%(prog)s ' + get_version())
 
-        self.args.add_argument(self.prog_arguments.root.abbreviation_name, self.prog_arguments.root.full_name,
+        self.args.add_argument(self.prog_arguments.executable_path.abbreviation_name, self.prog_arguments.executable_path.full_name,
                                required=not self.are_configs_saved,
-                               help=self.prog_arguments.root.help_message,
-                               metavar=self.prog_arguments.root.metavar,
+                               help=self.prog_arguments.executable_path.help_message,
+                               metavar=self.prog_arguments.executable_path.metavar,
+                               default=argparse.SUPPRESS)
+
+        self.args.add_argument(self.prog_arguments.program_alias.abbreviation_name, self.prog_arguments.program_alias.full_name,
+                               required=not self.are_configs_saved,
+                               help=self.prog_arguments.program_alias.help_message,
+                               metavar=self.prog_arguments.program_alias.metavar,
+                               default=argparse.SUPPRESS)
+
+        self.args.add_argument(self.prog_arguments.days_to_schedule.abbreviation_name, self.prog_arguments.days_to_schedule.full_name,
+                               required=not self.are_configs_saved,
+                               nargs='*',
+                               choices=self.prog_arguments.days_to_schedule.default,
+                               help=self.prog_arguments.days_to_schedule.help_message,
+                               metavar=self.prog_arguments.days_to_schedule.metavar,
+                               default=self.prog_arguments.days_to_schedule.default)
+
+        self.args.add_argument(self.prog_arguments.time_to_schedule.abbreviation_name, self.prog_arguments.time_to_schedule.full_name,
+                               help=self.prog_arguments.time_to_schedule.help_message,
+                               metavar=self.prog_arguments.time_to_schedule.metavar,
+                               default=self.prog_arguments.time_to_schedule.default)
+
+        self.args.add_argument(self.prog_arguments.delete_schedule.abbreviation_name, self.prog_arguments.delete_schedule.full_name,
+                               help=self.prog_arguments.delete_schedule.help_message,
+                               metavar=self.prog_arguments.delete_schedule.metavar,
                                default=argparse.SUPPRESS)
 
     def __check_any_errors(self):
-        pass
+        try:
+            if not self.__given_argument_path_exists(self.original_arguments.executable_path):
+                throw(self.original_arguments.executable_path + '\' path does not exist.')
+        except (AttributeError, TypeError):
+            pass
 
     @staticmethod
     def __given_argument_path_exists(path):

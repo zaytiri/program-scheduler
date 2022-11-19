@@ -1,4 +1,5 @@
 import os
+import sys
 
 import yaml
 
@@ -18,10 +19,14 @@ class Configurations:
         self.original_arguments = original_arguments
 
     def process(self):
+        self.__check_deletion_of_config()
+
         if self.is_configured():
-            configs_file = self.file.open('r')
-            self.settings = yaml.safe_load(configs_file)
-            self.file.close()
+            try:
+                arguments = self.arguments.to_list()
+                self.settings = self.__read_yaml()[arguments[0].value]
+            except KeyError:
+                pass
 
         self.__configure()
 
@@ -45,11 +50,7 @@ class Configurations:
         for configuration in arguments:
             self.settings[configuration.name] = self.__process_configuration(configuration)
 
-        configs_file = self.file.open('w')
-        yaml.safe_dump(self.settings, configs_file)
-        self.file.close()
-
-        self.arguments.from_list(arguments)
+        self.__write_to_file()
 
     def __process_configuration(self, configuration):
         if configuration.name not in self.original_arguments:
@@ -65,3 +66,53 @@ class Configurations:
 
         configuration.set_argument_value(argument_value)
         return configuration.value
+
+    def __write_to_file(self):
+        arguments = self.arguments.to_list()
+        list_of_configs = {}
+        program_alias = arguments[0].value
+
+        # open all configs from file if configured
+        if self.is_configured():
+            list_of_configs = self.__read_yaml()
+
+        # create new or update where program alias is current
+        list_of_configs[program_alias] = self.settings
+
+        # open file to save new configs
+        self.__write_yaml(list_of_configs)
+
+        self.arguments.from_list(arguments)
+
+    def __read_yaml(self):
+        configs_file = self.file.open('r')
+        list_of_configs = yaml.safe_load(configs_file)
+        self.file.close()
+        return list_of_configs
+
+    def __write_yaml(self, list_of_configs):
+        configs_file = self.file.open('w')
+        yaml.safe_dump(list_of_configs, configs_file)
+        self.file.close()
+
+    def __check_deletion_of_config(self):
+        try:
+            if self.original_arguments.delete_schedule:
+                pass
+
+            if self.is_configured():
+                list_of_configs = self.__read_yaml()
+
+                list_of_configs.pop(self.original_arguments.delete_schedule)
+
+                if list_of_configs:
+                    self.__write_yaml(list_of_configs)
+                else:
+                    self.file.open('w').close()
+
+                print('config deleted.')
+
+                sys.exit()
+
+        except (AttributeError, KeyError):
+            pass
