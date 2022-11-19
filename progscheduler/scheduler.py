@@ -37,8 +37,6 @@ class Scheduler:
         else:
             self._do_specific_days(time_to_schedule)
 
-        print(self._enabled_days_of_week)
-
         while True:
             schedule.run_pending()
 
