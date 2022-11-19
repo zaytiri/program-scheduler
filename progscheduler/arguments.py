@@ -35,6 +35,12 @@ class Arguments:
 
         self.original_arguments = self.args.parse_args()
 
+        if self.prog_arguments.days_to_schedule.name in self.original_arguments:
+            if self.original_arguments.days_to_schedule[0] == 'everyday':
+                every_day_of_week = self.prog_arguments.days_to_schedule.default
+                every_day_of_week.pop(every_day_of_week.index('everyday'))
+                self.original_arguments.days_to_schedule = every_day_of_week
+
         self.__check_any_errors()
 
         config_file.set_original_arguments(self.original_arguments)

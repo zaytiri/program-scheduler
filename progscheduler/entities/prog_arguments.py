@@ -30,7 +30,7 @@ class ProgArguments:
                                          '\'monday\', \'tuesday\', \'wednesday\', '
                                          '\'thursday\', \'friday\', \'saturday\' and \'sunday\'.',
                                          "",
-                                         default=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
+                                         default=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday'])
 
         self.time_to_schedule = Argument('time_to_schedule',
                                          '-t',
