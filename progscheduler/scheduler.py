@@ -1,9 +1,14 @@
-from datetime import datetime
+import threading
+import time
+from datetime import datetime, timedelta
 
 import schedule
 
 
 class Scheduler:
+    _method_to_schedule = None
+    _seconds_delay = 0
+
     everyday = 'everyday'
     monday = 'monday'
     tuesday = 'tuesday'
@@ -23,7 +28,7 @@ class Scheduler:
         sunday: False
     }
 
-    def __init__(self, method_to_schedule):
+    def set_method_to_schedule(self, method_to_schedule):
         self._method_to_schedule = method_to_schedule
 
     def process(self, list_of_days_to_enable, time_to_schedule=''):
@@ -37,6 +42,8 @@ class Scheduler:
         else:
             self._do_specific_days(time_to_schedule)
 
+    @staticmethod
+    def run():
         while True:
             schedule.run_pending()
 
@@ -47,8 +54,13 @@ class Scheduler:
         return True
 
     def _enable_days_of_week(self, list_of_days_to_enable):
+        self._reset_enabled_days_of_week()
         for day in list_of_days_to_enable:
             self._enabled_days_of_week[day] = True
+
+    def _reset_enabled_days_of_week(self):
+        for day in self._enabled_days_of_week:
+            self._enabled_days_of_week[day] = False
 
     def _do_every_day(self, time_to_schedule):
         self._schedule_method(time_to_schedule, self.everyday)
@@ -81,7 +93,7 @@ class Scheduler:
 
         scheduler.at(time_to_schedule).do(self._method_to_schedule)
 
-    @staticmethod
-    def _get_now_date():
-        now = datetime.utcnow()
-        return str(now.hour).zfill(2) + ':' + str(now.minute).zfill(2) + ':' + str(now.second + 1).zfill(2)
+    def _get_now_date(self):
+        self._seconds_delay += 1
+        now = datetime.utcnow() + timedelta(seconds=self._seconds_delay)
+        return str(now.hour).zfill(2) + ':' + str(now.minute).zfill(2) + ':' + str(now.second).zfill(2)
