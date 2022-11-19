@@ -23,14 +23,14 @@ class Configurations:
 
         if self.is_configured():
             try:
-                arguments = self.arguments.to_list()
-                self.settings = self.__read_yaml()[arguments[0].value]
-            except KeyError:
+                self.settings = self.__read_yaml()[self.original_arguments.program_alias]
+            except AttributeError:
                 pass
 
-        self.__configure()
+        if self.original_arguments.configure:
+            self.__configure()
 
-        return self.arguments
+        return self.__get_configs_from_file()
 
     def is_configured(self):
         directory = Directory(self.file.path)
@@ -51,6 +51,24 @@ class Configurations:
             self.settings[configuration.name] = self.__process_configuration(configuration)
 
         self.__write_to_file()
+
+        self.arguments.from_list(arguments)
+
+    def __get_configs_from_file(self):
+        list_of_configs = self.__read_yaml()
+        settings = []
+
+        for config in list_of_configs:
+            arguments = ProgArguments()
+            list_args = arguments.to_list()
+
+            for arg in list_args:
+                arg.set_argument_value(list_of_configs[config][arg.name])
+
+            arguments.from_list(list_args)
+            settings.append(arguments)
+
+        return settings
 
     def __process_configuration(self, configuration):
         if configuration.name not in self.original_arguments:
@@ -81,8 +99,6 @@ class Configurations:
 
         # open file to save new configs
         self.__write_yaml(list_of_configs)
-
-        self.arguments.from_list(arguments)
 
     def __read_yaml(self):
         configs_file = self.file.open('r')
