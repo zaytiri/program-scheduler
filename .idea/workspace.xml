@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73a816dd-0b06-4fdb-b1ef-b461a951c9bf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/progscheduler/jobs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/progscheduler/utils/error.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/progscheduler/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/progscheduler/arguments.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/arguments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/progscheduler/configurations/configurations.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/configurations/configurations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/progscheduler/entities/prog_arguments.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/entities/prog_arguments.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/progscheduler/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/scheduler.py" afterDir="false" />
     </list>
@@ -38,11 +43,16 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/ziia/PycharmProjects/progscheduler/progscheduler/utils"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ziia\PycharmProjects\progscheduler\progscheduler\utils" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ziia\PycharmProjects\progscheduler\progscheduler\" />
       <recent name="C:\Users\ziia\PycharmProjects\progscheduler\progscheduler" />
     </key>
   </component>
@@ -60,7 +70,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/progscheduler/app.py" />
-      <option name="PARAMETERS" value="" />
+      <option name="PARAMETERS" value="-e &quot;C:\Users\ziia\AppData\Local\Vivaldi\Application\vivaldi.exe&quot; -a browser -d monday friday saturday" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -95,5 +105,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/progscheduler/arguments.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
