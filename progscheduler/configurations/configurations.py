@@ -2,9 +2,9 @@ import os
 
 import yaml
 
-from havc.entities.prog_arguments import ProgArguments
-from havc.services.directory import Directory
-from havc.services.file import File
+from progscheduler.entities.prog_arguments import ProgArguments
+from progscheduler.services.directory import Directory
+from progscheduler.services.file import File
 
 
 class Configurations:

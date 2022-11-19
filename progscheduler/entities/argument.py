@@ -25,17 +25,3 @@ class Argument:
         :param value: value the argument has
         """
         self.value = value
-
-
-class Extensions(Argument):
-
-    def set_argument_value(self, value):
-        if not isinstance(value, list):
-            if not value.startswith('.'):
-                value = '.' + value
-        else:
-            for ext in value:
-                if not ext.startswith('.'):
-                    value[value.index(ext)] = '.' + ext
-
-        self.value = value
