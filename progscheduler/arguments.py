@@ -77,12 +77,23 @@ class Arguments:
                                metavar=self.prog_arguments.delete_schedule.metavar,
                                default=argparse.SUPPRESS)
 
+        self.args.add_argument(self.prog_arguments.configure.full_name,
+                               action=argparse.BooleanOptionalAction,
+                               required=False,
+                               help=self.prog_arguments.configure.help_message,
+                               default=self.prog_arguments.configure.default,
+                               metavar=self.prog_arguments.configure.metavar)
+
     def __check_any_errors(self):
         try:
             if not self.__given_argument_path_exists(self.original_arguments.executable_path):
                 throw(self.original_arguments.executable_path + '\' path does not exist.')
         except (AttributeError, TypeError):
             pass
+
+        if self.original_arguments.configure:
+            if self.prog_arguments.program_alias.name not in self.original_arguments:
+                throw('the program alias is needed to create or update.')
 
     @staticmethod
     def __given_argument_path_exists(path):
