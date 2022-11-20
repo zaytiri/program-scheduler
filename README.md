@@ -39,6 +39,7 @@ Any new features are **_very_** welcomed.
 ### Future features
 
 - Currently, the progscheduler only starts/opens a file, but in the future, a file can also be configured to do other types of jobs.
+- Currently, the progscheduler never stops running the scheduler, but it can be implemented that if all scheduled jobs are at startup, and they already finished then the progscheduler could stop automatically until manually started or computer rebooted.
 
 Any unimplemented features will be developed by user request, so if you want any of these or new ones, open an issue.
 
@@ -71,6 +72,8 @@ C:\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startu
 ```
 folder to start running when the computer boots up.
 
+This will open a command prompt window automatically when the computer boots up. This window should only be closed if all desired jobs are already finished.
+
 ### Linux Users
 Open an issue if you need to know how to enable this feature in Linux.
 
@@ -84,6 +87,7 @@ Open an issue if you need to know how to enable this feature in Linux.
 | -d      | ✅        | days to schedule a file within the following options: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday' and 'everyday'. |
 | -t      | ✅        | specific time to start/open a file. default is '' (empty). if time is empty then the file will start when the progscheduler command is run.        |
 | -del    | ❌        | delete a existing configuration with the file alias.                                                                                               |
+
 - -a command is always required when configuring.
 - -e, -d, -t command is required only the first time to configure a file to schedule.
 
