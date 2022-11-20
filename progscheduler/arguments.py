@@ -1,8 +1,8 @@
 from progscheduler.services.directory import Directory
-from entities.prog_arguments import ProgArguments
-from configurations.configurations import Configurations
+from progscheduler.entities.prog_arguments import ProgArguments
+from progscheduler.configurations.configurations import Configurations
 from progscheduler.utils.error import throw
-from utils.progsettings import get_version
+from progscheduler.utils.progsettings import get_version
 import argparse
 
 
