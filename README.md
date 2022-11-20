@@ -80,13 +80,13 @@ Open an issue if you need to know how to enable this feature in Linux.
 
 ## Usage
 
-| Command | Required | Description                                                                                                                                        |
-|:--------|----------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
-| -a      | ✅✅       | file alias. this name is UNIQUE within all scheduled files. to create or update any configuration regarding a specific file, this is required.     |
-| -e      | ✅        | absolute path of file to schedule (including the extension name except for folders).                                                               |
-| -d      | ✅        | days to schedule a file within the following options: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday' and 'everyday'. |
-| -t      | ✅        | specific time to start/open a file. default is '' (empty). if time is empty then the file will start when the progscheduler command is run.        |
-| -del    | ❌        | delete a existing configuration with the file alias.                                                                                               |
+| Command | Required | Description                                                                                                                                                                |
+|:--------|----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -a      | ✅✅       | file alias. this name is UNIQUE within all scheduled files. to create or update any configuration regarding a specific file, this is required.                             |
+| -e      | ✅        | absolute path of file to schedule (including the extension name except for folders).                                                                                       |
+| -d      | ✅        | days to schedule a file within the following options: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday', 'weekdays' and 'weekends'. |
+| -t      | ✅        | specific time to start/open a file. default is '' (empty). if time is empty then the file will start when the progscheduler command is run.                                |
+| -del    | ❌        | delete a existing configuration with the file alias.                                                                                                                       |
 
 - -a command is always required when configuring.
 - -e, -d, -t command is required only the first time to configure a file to schedule.
@@ -95,7 +95,7 @@ Open an issue if you need to know how to enable this feature in Linux.
 <a name="important"></a>
 
 ### Important
-- If the file is an executable file, **it's recommended to input the absolute path to a shortcut** instead of the original file location because if so, the executable file **may not start at all**.
+- If the file is an executable file, **it's recommended to input the absolute path to a shortcut** instead of the original file location because if so, the executable file **may not start at all**. If a shortcut is used, the extension '.lnk' is needed. For instance: 'C:\Users\<!username>\Desktop\shortcut.lnk'
 
 <a name="notes"></a>
 

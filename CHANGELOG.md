@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed
 - Removed
 
+## [1.0.1] - 2022-11-20
+
+### Changed
+- README.md file was updated
+- added new options when choosing the days to schedule. added 'weekdays' and 'weekends' option.
+
 ## [1.0.0] - 2022-11-20
 
 ### Added
