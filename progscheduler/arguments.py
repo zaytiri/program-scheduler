@@ -18,6 +18,7 @@ class Arguments:
         self.original_arguments = None
         self.prog_arguments = ProgArguments()
         self.are_configs_saved = False
+        self.to_configure = False
 
     def configure(self):
         """
@@ -35,21 +36,13 @@ class Arguments:
 
         self.original_arguments = self.args.parse_args()
 
-        to_configure = False
-        if self.prog_arguments.file_alias.name in self.original_arguments:
-            to_configure = True
-
-        if self.prog_arguments.days_to_schedule.name in self.original_arguments:
-            if self.original_arguments.days_to_schedule[0] == 'everyday':
-                every_day_of_week = self.prog_arguments.days_to_schedule.default
-                every_day_of_week.pop(every_day_of_week.index('everyday'))
-                self.original_arguments.days_to_schedule = every_day_of_week
+        self.__check_arguments()
 
         self.__check_any_errors()
 
         config_file.set_original_arguments(self.original_arguments)
 
-        return config_file.process(to_configure)
+        return config_file.process(self.to_configure)
 
     def __add_arguments(self):
         """
@@ -75,9 +68,10 @@ class Arguments:
                                choices=self.prog_arguments.days_to_schedule.default,
                                help=self.prog_arguments.days_to_schedule.help_message,
                                metavar=self.prog_arguments.days_to_schedule.metavar,
-                               default=self.prog_arguments.days_to_schedule.default)
+                               default=argparse.SUPPRESS)
 
         self.args.add_argument(self.prog_arguments.time_to_schedule.abbreviation_name, self.prog_arguments.time_to_schedule.full_name,
+                               type=str,
                                help=self.prog_arguments.time_to_schedule.help_message,
                                metavar=self.prog_arguments.time_to_schedule.metavar,
                                default=self.prog_arguments.time_to_schedule.default)
@@ -86,6 +80,16 @@ class Arguments:
                                help=self.prog_arguments.delete_schedule.help_message,
                                metavar=self.prog_arguments.delete_schedule.metavar,
                                default=argparse.SUPPRESS)
+
+    def __check_arguments(self):
+        if self.prog_arguments.file_alias.name in self.original_arguments:
+            self.to_configure = True
+
+        if self.prog_arguments.days_to_schedule.name in self.original_arguments:
+            if self.original_arguments.days_to_schedule[0] == 'everyday':
+                every_day_of_week = self.prog_arguments.days_to_schedule.default
+                every_day_of_week.pop(every_day_of_week.index('everyday'))
+                self.original_arguments.days_to_schedule = every_day_of_week
 
     def __check_any_errors(self):
         try:

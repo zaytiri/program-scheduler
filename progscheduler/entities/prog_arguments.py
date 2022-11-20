@@ -8,12 +8,12 @@ class ProgArguments:
 
     def __init__(self):
         self.file_alias = Argument('file_alias',
-                                      '-a',
-                                      '--file-alias',
-                                      'chosen UNIQUE alias for the file. when updating any configurations this flag needs to be used. this only '
-                                      'works if the file path already exists in the '
-                                      'configurations.',
-                                      "")
+                                   '-a',
+                                   '--file-alias',
+                                   'chosen UNIQUE alias for the file. when updating any configurations this flag needs to be used. this only '
+                                   'works if the file path already exists in the '
+                                   'configurations.',
+                                   "")
 
         self.executable_path = Argument('executable_path',
                                         '-e',
