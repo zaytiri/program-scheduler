@@ -33,10 +33,11 @@ class ProgArguments:
         self.time_to_schedule = Argument('time_to_schedule',
                                          '-t',
                                          '--time-to-schedule',
-                                         'input a specific time to start the file. example: \'08:15\'. default value is empty: \'\'. If is \'\' '
+                                         'input a specific time to start the file. example: \'08:15\'. default value is: \'at startup\'. If is \'at '
+                                         'startup\' '
                                          'then the file will be scheduled to open at startup.',
                                          "",
-                                         default='')
+                                         default='at startup')
 
         self.delete_schedule = Argument('delete_schedule',
                                         '-del',

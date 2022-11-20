@@ -29,10 +29,10 @@ class Scheduler:
     def set_method_to_schedule(self, method_to_schedule):
         self._method_to_schedule = method_to_schedule
 
-    def process(self, list_of_days_to_enable, time_to_schedule=''):
+    def process(self, list_of_days_to_enable, time_to_schedule):
         self._enable_days_of_week(list_of_days_to_enable)
 
-        if time_to_schedule == '':
+        if time_to_schedule == 'at startup':
             time_to_schedule = self._get_now_date()
 
         if self.is_every_day_enable():
