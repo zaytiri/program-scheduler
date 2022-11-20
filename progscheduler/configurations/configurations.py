@@ -24,8 +24,8 @@ class Configurations:
 
         if self.is_configured():
             try:
-                self.settings = self.__read_yaml()[self.original_arguments.program_alias]
-            except AttributeError:
+                self.settings = self.__read_yaml()[self.original_arguments.file_alias]
+            except (AttributeError, KeyError):
                 pass
 
         if self.arguments.configure:

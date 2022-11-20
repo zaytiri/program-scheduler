@@ -7,11 +7,11 @@ class ProgArguments:
     """
 
     def __init__(self):
-        self.program_alias = Argument('program_alias',
+        self.file_alias = Argument('program_alias',
                                       '-a',
                                       '--program-alias',
-                                      'chosen UNIQUE alias for the program. when updating any configurations for a program, this alias can be used '
-                                      'instead of the whole executable path. this only works if the executable path already exists in the '
+                                      'chosen UNIQUE alias for the program. when updating any configurations this flag needs to be used. this only '
+                                      'works if the executable path already exists in the '
                                       'configurations.',
                                       "")
 
@@ -33,21 +33,22 @@ class ProgArguments:
         self.time_to_schedule = Argument('time_to_schedule',
                                          '-t',
                                          '--time-to-schedule',
-                                         'input a specific time to start the program. example: \'08:15\'. default value is empty: \'\'',
+                                         'input a specific time to start the program. example: \'08:15\'. default value is empty: \'\'. If is \'\' '
+                                         'then the file will be scheduled to open at startup.',
                                          "",
                                          default='')
 
         self.delete_schedule = Argument('delete_schedule',
                                         '-del',
                                         '--delete-schedule',
-                                        'delete a given program alias from the scheduler. example: -d browser',
+                                        'delete a given program alias from the scheduler. example: -d ThisNAmeRefersToCurrentProgramToSchedule',
                                         "")
 
         self.configure = False
 
     def to_list(self):
         arguments = [
-            self.program_alias,
+            self.file_alias,
             self.executable_path,
             self.days_to_schedule,
             self.time_to_schedule,
@@ -56,7 +57,7 @@ class ProgArguments:
         return arguments
 
     def from_list(self, arguments):
-        self.program_alias = arguments[0]
+        self.file_alias = arguments[0]
         self.executable_path = arguments[1]
         self.days_to_schedule = arguments[2]
         self.time_to_schedule = arguments[3]

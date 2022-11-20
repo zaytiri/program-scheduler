@@ -63,10 +63,10 @@ class Arguments:
                                metavar=self.prog_arguments.executable_path.metavar,
                                default=argparse.SUPPRESS)
 
-        self.args.add_argument(self.prog_arguments.program_alias.abbreviation_name, self.prog_arguments.program_alias.full_name,
+        self.args.add_argument(self.prog_arguments.file_alias.abbreviation_name, self.prog_arguments.file_alias.full_name,
                                required=not self.are_configs_saved,
-                               help=self.prog_arguments.program_alias.help_message,
-                               metavar=self.prog_arguments.program_alias.metavar,
+                               help=self.prog_arguments.file_alias.help_message,
+                               metavar=self.prog_arguments.file_alias.metavar,
                                default=argparse.SUPPRESS)
 
         self.args.add_argument(self.prog_arguments.days_to_schedule.abbreviation_name, self.prog_arguments.days_to_schedule.full_name,
