@@ -7,24 +7,24 @@ class ProgArguments:
     """
 
     def __init__(self):
-        self.file_alias = Argument('program_alias',
+        self.file_alias = Argument('file_alias',
                                       '-a',
-                                      '--program-alias',
-                                      'chosen UNIQUE alias for the program. when updating any configurations this flag needs to be used. this only '
-                                      'works if the executable path already exists in the '
+                                      '--file-alias',
+                                      'chosen UNIQUE alias for the file. when updating any configurations this flag needs to be used. this only '
+                                      'works if the file path already exists in the '
                                       'configurations.',
                                       "")
 
         self.executable_path = Argument('executable_path',
                                         '-e',
                                         '--executable-path',
-                                        'absolute path of executable to schedule.',
+                                        'absolute path of file to schedule.',
                                         "")
 
         self.days_to_schedule = Argument('days_to_schedule',
                                          '-d',
                                          '--days-to-schedule',
-                                         'days of the week for when the program will start. multiple values can be set. available set of values: '
+                                         'days of the week for when the file will start. multiple values can be set. available set of values: '
                                          '\'monday\', \'tuesday\', \'wednesday\', '
                                          '\'thursday\', \'friday\', \'saturday\' and \'sunday\'.',
                                          "",
@@ -33,7 +33,7 @@ class ProgArguments:
         self.time_to_schedule = Argument('time_to_schedule',
                                          '-t',
                                          '--time-to-schedule',
-                                         'input a specific time to start the program. example: \'08:15\'. default value is empty: \'\'. If is \'\' '
+                                         'input a specific time to start the file. example: \'08:15\'. default value is empty: \'\'. If is \'\' '
                                          'then the file will be scheduled to open at startup.',
                                          "",
                                          default='')
@@ -41,7 +41,7 @@ class ProgArguments:
         self.delete_schedule = Argument('delete_schedule',
                                         '-del',
                                         '--delete-schedule',
-                                        'delete a given program alias from the scheduler. example: -d ThisNAmeRefersToCurrentProgramToSchedule',
+                                        'delete a given file alias from the scheduler. example: -d ThisNAmeRefersToCurrentProgramToSchedule',
                                         "")
 
         self.configure = False
