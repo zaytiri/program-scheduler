@@ -139,6 +139,8 @@ When all desired files are scheduled in the configurations, the following comman
 progscheduler
 ```
 
+Once the progscheduler starts running it will not stop alone, to cancel just run CTRL + C or close the terminal window.
+
 <a name="support"></a>
 
 ## Support
