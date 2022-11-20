@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 progscheduler/configurations/userconfigs.yaml
 .idea/sonarlint/
+.idea/workspace.xml
