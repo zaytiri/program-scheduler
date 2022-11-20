@@ -1,6 +1,6 @@
 # Program Scheduler
 
-A simple way of scheduling programs at startup at specific days of the week and more.
+A simple way of scheduling files at startup or at specific time of the day. The file can also be scheduled to start at specific days of the week or every day. 
 
 ## Table of Contents
 
@@ -17,26 +17,132 @@ A simple way of scheduling programs at startup at specific days of the week and 
 
 ## Description
 
+The current project provides a simple automated task to schedule files to open in specific days of the week or every day at startup or at specific time of the day. Multiple files can be scheduled.
+
+For the progscheduler to work as intended, the startup feature includes having to add a file containing the command for starting the progscheduler in a specific startup folder for Windows users. If that's not done, then the progscheduler continues to work fine but to have the scheduled files to open, the user must run the progscheduler manually every time. This is explained in [here](#installation).
+
+A scheduled file can also be any type of file including folders. See [Notes](#notes).
 
 <a name="features"></a>
 
 ## Features
 
-| Status | Feature |
-|:-------|:--------|
-| ✅      |         |
+| Status | Feature                                                                |
+|:-------|:-----------------------------------------------------------------------|
+| ✅      | schedule a file to start/open at specific days of the week or everyday |
+| ✅      | schedule a file to start/open at specific time of the day              |
+| ✅      | schedule a file to start/open when the computer boots up               |
+| ✅      | configuration of multiple files to schedule                            |
+
+Any new features are **_very_** welcomed.
+
+### Future features
+
+- Currently, the progscheduler only starts/opens a file, but in the future, a file can also be configured to do other types of jobs.
+
+Any unimplemented features will be developed by user request, so if you want any of these or new ones, open an issue.
 
 <a name="prerequisites"></a>
 
 ## Prerequisites
 
+[Python 3](https://www.python.org/downloads/) must be installed.
+
 <a name="installation"></a>
 
 ## Installation
 
+```
+pip --no-cache-dir install progscheduler
+```
+
+or,
+
+```
+pip3 --no-cache-dir install progscheduler
+```
+
+### Windows users
+To enable the startup feature, the file 'program-scheduler.bat' is provided. This file can be found in this [project's github repository](https://github.com/zaytiri/program-scheduler/blob/main/program-scheduler.bat). 
+
+The 'program-scheduler.bat' needs to be put into 
+```
+C:\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup 
+```
+folder to start running when the computer boots up.
+
+### Linux Users
+Open an issue if you need to know how to enable this feature in Linux.
+
+
 ## Usage
 
+| Command | Required | Description                                                                                                                                        |
+|:--------|----------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
+| -a      | ✅✅       | file alias. this name is UNIQUE within all scheduled files. to create or update any configuration regarding a specific file, this is required.     |
+| -e      | ✅        | absolute path of file to schedule (including the extension name except for folders).                                                               |
+| -d      | ✅        | days to schedule a file within the following options: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday' and 'everyday'. |
+| -t      | ✅        | specific time to start/open a file. default is '' (empty). if time is empty then the file will start when the progscheduler command is run.        |
+| -del    | ❌        | delete a existing configuration with the file alias.                                                                                               |
+- -a command is always required when configuring.
+- -e, -d, -t command is required only the first time to configure a file to schedule.
+
+
+<a name="important"></a>
+
+### Important
+- If the file is an executable file, **it's recommended to input the absolute path to a shortcut** instead of the original file location because if so, the executable file **may not start at all**.
+
+<a name="notes"></a>
+
+### Notes
+
+- **By 'file', it means that the progscheduler can schedule executable files, text files, folders, or any type of file to start/open.**
+- If a specific time is set, the file will only start/open from the moment the progscheduler starts running. Meaning if a file is scheduled to start at 08:00 and the progscheduler only starts running at 08:30, then the next time the file will start is at 08:00 the next day (if the progscheduler is running).
+- Every time a new file is scheduled and configured, the progscheduler must be restarted.
+- If a file needs to be scheduled using mixed configurations, for instance, a folder needs to be opened at startup on monday but on 08:15 on friday, then the same file can be configured but always using different file alias.
+
+---
+
+Any additional help can be provided if the following command is run:
+
+```
+progscheduler --help
+```
+or,
+```
+progscheduler -h
+```
+
+Before running the scheduler, at least one program needs to be configured. The following command will configure the 'program.exe' to start when the computer boots up every monday, friday and saturday
+```
+progscheduler -a ThisNAmeRefersToCurrentProgramToSchedule -e "C:\Users\<username>\Desktop\program.exe" -d monday friday saturday
+```
+
+To configure an existing program to change days to schedule:
+```
+progscheduler -a ThisNAmeRefersToCurrentProgramToSchedule -d everyday
+```
+
+To configure an existing program to change time to schedule. The following command would schedule a program to start every day and at 08:00:
+```
+progscheduler -a ThisNAmeRefersToCurrentProgramToSchedule -t "08:00"
+```
+
+To delete an existing configuration:
+```
+progscheduler -del ThisNAmeRefersToCurrentProgramToSchedule
+```
+
+When all desired files are scheduled in the configurations, the following command is valid and will expect to run the scheduler considering every configuration made:
+```
+progscheduler
+```
+
+<a name="support"></a>
+
 ## Support
+ If any problems occurs, feel free to open an issue.
 
 <a name="license"></a>
 
@@ -47,3 +153,5 @@ A simple way of scheduling programs at startup at specific days of the week and 
 <a name="status"></a>
 
 ## Status
+
+This project was developed for both need and educational purposes, so I'm available to maintain this project, so any bugs, suggestions, new features, improvements, etc, don't hesitate to ask, open an issue or a pull request.
