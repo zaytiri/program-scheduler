@@ -43,13 +43,7 @@ class ProgArguments:
                                         'delete a given program alias from the scheduler. example: -d browser',
                                         "")
 
-        self.configure = Argument('configure',
-                                  '',
-                                  '--configure',
-                                  'to update or create a config, this flag needs to be enabled. default is disabled. example: --no-configure ('
-                                  'disable) | --configure (enable)',
-                                  "",
-                                  default=False)
+        self.configure = False
 
     def to_list(self):
         arguments = [

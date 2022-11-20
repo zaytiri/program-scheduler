@@ -35,6 +35,10 @@ class Arguments:
 
         self.original_arguments = self.args.parse_args()
 
+        to_configure = False
+        if self.prog_arguments.file_alias.name in self.original_arguments:
+            to_configure = True
+
         if self.prog_arguments.days_to_schedule.name in self.original_arguments:
             if self.original_arguments.days_to_schedule[0] == 'everyday':
                 every_day_of_week = self.prog_arguments.days_to_schedule.default
@@ -45,7 +49,7 @@ class Arguments:
 
         config_file.set_original_arguments(self.original_arguments)
 
-        return config_file.process()
+        return config_file.process(to_configure)
 
     def __add_arguments(self):
         """
@@ -83,23 +87,12 @@ class Arguments:
                                metavar=self.prog_arguments.delete_schedule.metavar,
                                default=argparse.SUPPRESS)
 
-        self.args.add_argument(self.prog_arguments.configure.full_name,
-                               action=argparse.BooleanOptionalAction,
-                               required=False,
-                               help=self.prog_arguments.configure.help_message,
-                               default=self.prog_arguments.configure.default,
-                               metavar=self.prog_arguments.configure.metavar)
-
     def __check_any_errors(self):
         try:
             if not self.__given_argument_path_exists(self.original_arguments.executable_path):
                 throw(self.original_arguments.executable_path + '\' path does not exist.')
         except (AttributeError, TypeError):
             pass
-
-        if self.original_arguments.configure:
-            if self.prog_arguments.program_alias.name not in self.original_arguments:
-                throw('the program alias is needed to create or update.')
 
     @staticmethod
     def __given_argument_path_exists(path):

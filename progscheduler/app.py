@@ -7,7 +7,7 @@ from scheduler import Scheduler
 def main():
     arguments = Arguments().configure()
 
-    if arguments[0].configure.value:
+    if arguments[0].configure:
         sys.exit()
 
     scheduler = Scheduler()

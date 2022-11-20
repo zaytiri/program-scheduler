@@ -18,7 +18,8 @@ class Configurations:
     def set_original_arguments(self, original_arguments):
         self.original_arguments = original_arguments
 
-    def process(self):
+    def process(self, to_configure):
+        self.arguments.configure = to_configure
         self.__check_deletion_of_config()
 
         if self.is_configured():
@@ -27,7 +28,7 @@ class Configurations:
             except AttributeError:
                 pass
 
-        if self.original_arguments.configure:
+        if self.arguments.configure:
             self.__configure()
 
         return self.__get_configs_from_file()
@@ -66,7 +67,7 @@ class Configurations:
                 arg.set_argument_value(list_of_configs[config][arg.name])
 
             arguments.from_list(list_args)
-            arguments.configure.set_argument_value(self.original_arguments.configure)
+            arguments.configure = self.arguments.configure
             settings.append(arguments)
 
         return settings
@@ -129,7 +130,7 @@ class Configurations:
 
                 print('config deleted.')
 
-                sys.exit()
+            sys.exit()
 
         except (AttributeError, KeyError):
             pass
