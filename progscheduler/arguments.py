@@ -86,10 +86,13 @@ class Arguments:
             self.to_configure = True
 
         if self.prog_arguments.days_to_schedule.name in self.original_arguments:
+            every_day_of_week = self.prog_arguments.days_to_schedule.default
             if self.original_arguments.days_to_schedule[0] == 'everyday':
-                every_day_of_week = self.prog_arguments.days_to_schedule.default
-                every_day_of_week.pop(every_day_of_week.index('everyday'))
-                self.original_arguments.days_to_schedule = every_day_of_week
+                self.original_arguments.days_to_schedule = self.get_specific_days('everyday', every_day_of_week)
+            elif self.original_arguments.days_to_schedule[0] == 'weekdays':
+                self.original_arguments.days_to_schedule = self.get_specific_days('weekdays', every_day_of_week)
+            elif self.original_arguments.days_to_schedule[0] == 'weekends':
+                self.original_arguments.days_to_schedule = self.get_specific_days('weekends', every_day_of_week)
 
     def __check_any_errors(self):
         try:
@@ -97,6 +100,24 @@ class Arguments:
                 throw(self.original_arguments.executable_path + '\' path does not exist.')
         except (AttributeError, TypeError):
             pass
+
+    @staticmethod
+    def get_specific_days(days, full_list_of_days):
+        if days == 'weekdays':
+            full_list_of_days.pop(full_list_of_days.index('saturday'))
+            full_list_of_days.pop(full_list_of_days.index('sunday'))
+        elif days == 'weekends':
+            full_list_of_days.pop(full_list_of_days.index('monday'))
+            full_list_of_days.pop(full_list_of_days.index('tuesday'))
+            full_list_of_days.pop(full_list_of_days.index('wednesday'))
+            full_list_of_days.pop(full_list_of_days.index('thursday'))
+            full_list_of_days.pop(full_list_of_days.index('friday'))
+
+        full_list_of_days.pop(full_list_of_days.index('everyday'))
+        full_list_of_days.pop(full_list_of_days.index('weekdays'))
+        full_list_of_days.pop(full_list_of_days.index('weekends'))
+
+        return full_list_of_days
 
     @staticmethod
     def __given_argument_path_exists(path):
