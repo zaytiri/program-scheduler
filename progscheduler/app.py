@@ -1,6 +1,7 @@
 import sys
 from progscheduler.arguments import Arguments
 from progscheduler.jobs import open_program
+from progscheduler.utils.information import show
 from scheduler import Scheduler
 
 
@@ -9,6 +10,9 @@ def main():
 
     if arguments[0].configure:
         sys.exit()
+
+    show('The program will now start running the scheduler. While this is running this window should not be closed because that will stop the '
+         'schedule. If you know that all scheduled jobs are already finished, then it is safe to close this window.')
 
     scheduler = Scheduler()
 

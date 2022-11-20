@@ -6,6 +6,7 @@ import yaml
 from progscheduler.entities.prog_arguments import ProgArguments
 from progscheduler.services.directory import Directory
 from progscheduler.services.file import File
+from progscheduler.utils.information import show
 
 
 class Configurations:
@@ -54,6 +55,13 @@ class Configurations:
         self.__write_to_file()
 
         self.arguments.from_list(arguments)
+
+        show('The following configuration \n\t\t\t\'' + str(self.arguments.file_alias.value) + '\'\n\t\t was added/updated:\n\t\t\t'
+             + str(self.arguments.file_alias.name) + ': ' + str(self.arguments.file_alias.value) + '\n\t\t\t'
+             + str(self.arguments.executable_path.name) + ': ' + str(self.arguments.executable_path.value) + '\n\t\t\t'
+             + str(self.arguments.days_to_schedule.name) + ': ' + str(self.arguments.days_to_schedule.value) + '\n\t\t\t'
+             + str(self.arguments.time_to_schedule.name) + ': ' + str(self.arguments.time_to_schedule.value)
+             )
 
     def __get_configs_from_file(self):
         list_of_configs = self.__read_yaml()
@@ -128,7 +136,7 @@ class Configurations:
                 else:
                     self.file.open('w').close()
 
-                print('config deleted.')
+                show('The following configuration \n\t\t\t\'' + self.original_arguments.delete_schedule + '\'\n\t\t was deleted.')
 
             sys.exit()
 
