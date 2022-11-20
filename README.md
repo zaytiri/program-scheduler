@@ -19,7 +19,7 @@ A simple way of scheduling files at startup or at specific time of the day. The 
 
 The current project provides a simple automated task to schedule files to open in specific days of the week or every day at startup or at specific time of the day. Multiple files can be scheduled.
 
-For the progscheduler to work as intended, the startup feature includes having to add a file containing the command for starting the progscheduler in a specific startup folder for Windows users. If that's not done, then the progscheduler continues to work fine but to have the scheduled files to open, the user must run the progscheduler manually every time. This is explained in [here](#installation).
+For the progscheduler to work as intended, the startup feature includes having to add a file containing the command for starting the progscheduler in a specific startup folder for Windows users. If that's not done, then the progscheduler continues to work fine but to have the scheduled files to open, the user must run the progscheduler manually every time. If the 'program-scheduler.bat' exists, double-click this file to start running the program. This is explained in [here](#installation).
 
 A scheduled file can also be any type of file including folders. See [Notes](#notes).
 
