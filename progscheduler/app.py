@@ -16,6 +16,9 @@ from scheduler import Scheduler
 def main():
     arguments = Arguments().configure()
 
+    if arguments[0].configure.value:
+        sys.exit()
+
     scheduler = Scheduler()
 
     for program in arguments:

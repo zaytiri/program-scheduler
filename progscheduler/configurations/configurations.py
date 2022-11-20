@@ -66,6 +66,7 @@ class Configurations:
                 arg.set_argument_value(list_of_configs[config][arg.name])
 
             arguments.from_list(list_args)
+            arguments.configure.set_argument_value(self.original_arguments.configure)
             settings.append(arguments)
 
         return settings

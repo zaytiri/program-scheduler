@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73a816dd-0b06-4fdb-b1ef-b461a951c9bf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/progscheduler/utils/create_bat_file.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/progscheduler/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/progscheduler/arguments.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/arguments.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/progscheduler/configurations/configurations.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/configurations/configurations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/progscheduler/entities/prog_arguments.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/entities/prog_arguments.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/progscheduler/jobs.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/jobs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/progscheduler/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/progscheduler/scheduler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +66,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/progscheduler/app.py" />
-      <option name="PARAMETERS" value="--configure -a havc -d friday" />
+      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
