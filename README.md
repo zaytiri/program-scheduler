@@ -1,3 +1,5 @@
+[![Downloads](https://pepy.tech/badge/progscheduler)](https://pepy.tech/project/progscheduler)
+
 # Program Scheduler
 
 A simple way of scheduling files at startup or at specific time of the day. The file can also be scheduled to start at specific days of the week or every day. 
