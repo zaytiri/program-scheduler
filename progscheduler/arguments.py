@@ -76,6 +76,11 @@ class Arguments:
                                metavar=self.prog_arguments.time_to_schedule.metavar,
                                default=self.prog_arguments.time_to_schedule.default)
 
+        self.args.add_argument(self.prog_arguments.list_all_configs.abbreviation_name, self.prog_arguments.list_all_configs.full_name,
+                               action='store_true',
+                               help=self.prog_arguments.list_all_configs.help_message,
+                               default=argparse.SUPPRESS)
+
         self.args.add_argument(self.prog_arguments.delete_schedule.abbreviation_name, self.prog_arguments.delete_schedule.full_name,
                                help=self.prog_arguments.delete_schedule.help_message,
                                metavar=self.prog_arguments.delete_schedule.metavar,

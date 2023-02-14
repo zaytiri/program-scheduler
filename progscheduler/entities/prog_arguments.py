@@ -40,6 +40,12 @@ class ProgArguments:
                                          "",
                                          default='at startup')
 
+        self.list_all_configs = Argument('list_all_configs',
+                                        '-all',
+                                        '--list-all-configs',
+                                        'list all existent saved configurations. example: -all',
+                                        "")
+
         self.delete_schedule = Argument('delete_schedule',
                                         '-del',
                                         '--delete-schedule',
