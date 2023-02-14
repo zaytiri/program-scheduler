@@ -22,6 +22,7 @@ class Configurations:
     def process(self, to_configure):
         self.arguments.configure = to_configure
         self.__check_deletion_of_config()
+        self.__check_list_all_configs()
 
         if self.is_configured():
             try:
@@ -142,3 +143,23 @@ class Configurations:
 
         except (AttributeError, KeyError):
             pass
+
+    def __check_list_all_configs(self):
+
+        if not self.original_arguments.list_all_configs:
+            pass
+
+        if self.is_configured():
+            list_of_configs = self.__read_yaml()
+
+            current_configurations_list = 'Current configurations:'
+            for key in list_of_configs:
+                current_configurations_list += \
+                    '\n\t\t\t' + str(list_of_configs[key]['file_alias']) + ':\n\t\t\t\t' \
+                    + 'file_alias: ' + str(list_of_configs[key]['file_alias']) + '\n\t\t\t\t' \
+                    + 'executable_path: ' + str(list_of_configs[key]['executable_path']) + '\n\t\t\t\t' \
+                    + 'days_to_schedule: ' + str(list_of_configs[key]['days_to_schedule']) + '\n\t\t\t\t' \
+                    + 'time_to_schedule: ' + str(list_of_configs[key]['time_to_schedule']) + '\n\n\t\t\t\t'
+
+            show(current_configurations_list)
+        sys.exit()
