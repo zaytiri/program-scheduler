@@ -40,10 +40,18 @@ class Scheduler:
         else:
             self._do_specific_days(time_to_schedule)
 
-    @staticmethod
-    def run():
+    def run(self):
         while True:
             schedule.run_pending()
+            if self.__all_jobs_done():
+                break
+
+    @staticmethod
+    def __all_jobs_done():
+        for job in schedule.jobs:
+            if job.next_run.day == datetime.utcnow().day:
+                return False
+        return True
 
     def is_every_day_enable(self):
         for day in self._enabled_days_of_week:
