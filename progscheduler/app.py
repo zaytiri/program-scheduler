@@ -19,7 +19,7 @@ def main():
     for program in arguments:
         process_scheduler(scheduler, program)
 
-    scheduler.run()
+    scheduler.run(arguments[0].exit.value)
 
 
 def process_scheduler(scheduler, program_to_schedule):

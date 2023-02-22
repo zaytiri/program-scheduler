@@ -41,10 +41,18 @@ class ProgArguments:
                                          default='at startup')
 
         self.list_all_configs = Argument('list_all_configs',
-                                        '-all',
-                                        '--list-all-configs',
-                                        'list all existent saved configurations. example: -all',
-                                        "")
+                                         '-all',
+                                         '--list-all-configs',
+                                         'list all existent saved configurations. example: -all',
+                                         "")
+
+        self.exit = Argument('exit',
+                             '',
+                             '--exit',
+                             'will exit the program when all jobs are done for the current day. the configuration will be saved. example: '
+                             'True: --exit | False: --no-exit',
+                             "",
+                             default=False)
 
         self.delete_schedule = Argument('delete_schedule',
                                         '-del',
@@ -60,7 +68,7 @@ class ProgArguments:
             self.executable_path,
             self.days_to_schedule,
             self.time_to_schedule,
-
+            self.exit
         ]
         return arguments
 
@@ -69,3 +77,4 @@ class ProgArguments:
         self.executable_path = arguments[1]
         self.days_to_schedule = arguments[2]
         self.time_to_schedule = arguments[3]
+        self.exit = arguments[4]

@@ -40,10 +40,10 @@ class Scheduler:
         else:
             self._do_specific_days(time_to_schedule)
 
-    def run(self):
+    def run(self, will_exit):
         while True:
             schedule.run_pending()
-            if self.__all_jobs_done():
+            if will_exit and self.__all_jobs_done():
                 break
 
     @staticmethod

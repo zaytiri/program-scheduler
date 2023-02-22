@@ -81,6 +81,12 @@ class Arguments:
                                help=self.prog_arguments.list_all_configs.help_message,
                                default=argparse.SUPPRESS)
 
+        self.args.add_argument(self.prog_arguments.exit.full_name,
+                               action=argparse.BooleanOptionalAction,
+                               help=self.prog_arguments.exit.help_message,
+                               metavar=self.prog_arguments.exit.metavar,
+                               default=argparse.SUPPRESS)
+
         self.args.add_argument(self.prog_arguments.delete_schedule.abbreviation_name, self.prog_arguments.delete_schedule.full_name,
                                help=self.prog_arguments.delete_schedule.help_message,
                                metavar=self.prog_arguments.delete_schedule.metavar,
