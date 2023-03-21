@@ -1,38 +1,57 @@
 import sys
+from datetime import datetime
 
 from progscheduler.jobs import open_program
 from progscheduler.settings.manager import Manager
+from progscheduler.utils.log import show
 from scheduler import Scheduler
 
 
 def main():
-    manager = Manager()
-    arguments = manager.configure_arguments()
-    sys.exit()
+    arguments = get_processed_arguments()
 
-    if manager.is_to_configure:
+    validate(arguments)
+
+    run_scheduler(arguments)
+
+
+def get_processed_arguments():
+    manager = Manager()
+    return manager.configure_arguments()
+
+
+def validate(arguments):
+    if not arguments['Generic'].run.value:
         sys.exit()
 
-    show('The program will now start running the scheduler. While this is running this window should not be closed because that will stop the '
-         'schedule. If you know that all scheduled jobs are already finished, then it is safe to close this window.')
+    if arguments['Generic'].exit_when_done.value:
+        show('Option: \"exit-when-done\" is enabled. This windows will close automatically when all jobs are done.')
+
+    if arguments['Generic'].time_to_stop.value != 'off'.lower():
+        now = datetime.utcnow()
+        time = arguments['Generic'].time_to_stop.value.split(':')
+        if now.hour >= int(time[0]) and now.minute > int(time[1]):
+            sys.exit()
+
+
+def run_scheduler(arguments):
+    show('The program will now start running the scheduler.\n\n\t\t\t*NOTE:* While this is running this window should not be closed. If you are '
+         'certain that all scheduled jobs are already finished, then it is safe to close this window.')
 
     scheduler = Scheduler()
 
-    for program in arguments:
-        process_scheduler(scheduler, program)
+    for program in arguments['Specific']:
+        do_scheduled_job(scheduler, arguments['Specific'][program])
 
-    scheduler.run(arguments[1].exit.value)
+    scheduler.run(arguments['Generic'].exit_when_done.value)
 
 
-def process_scheduler(scheduler, program_to_schedule):
-    scheduler.set_method_to_schedule(lambda: open_program(program_to_schedule.executable_path.value))
+def do_scheduled_job(scheduler, program):
+    scheduler.set_method_to_schedule(lambda: open_program(program.path.value))
     scheduler.process(
-        program_to_schedule.days.value,
-        program_to_schedule.time.value
+        program.days.value,
+        program.time.value
     )
-
-# def define_method_to_schedule(program):
-#     program.job
 
 
 if __name__ == '__main__':

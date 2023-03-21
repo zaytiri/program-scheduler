@@ -132,3 +132,5 @@ progscheduler/configurations/userconfigs.yaml
 .idea/workspace.xml
 .idea/dictionaries/
 .idea/
+progscheduler/settings/global.yaml
+progscheduler/settings/local.yaml
