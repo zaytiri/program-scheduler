@@ -4,7 +4,7 @@ from datetime import datetime
 from progscheduler.jobs import open_program
 from progscheduler.settings.manager import Manager
 from progscheduler.utils.log import show
-from scheduler import Scheduler
+from progscheduler.scheduler import Scheduler
 
 
 def main():
