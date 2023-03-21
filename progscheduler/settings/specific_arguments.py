@@ -20,12 +20,12 @@ class Specific(Arguments):
                               to_save=True,
                               is_main=True)
 
-        self.executable_path = Argument(name='executable_path',
-                                        abbreviation_name='-e',
-                                        full_name='--executable-path',
-                                        help_message='absolute path of file to schedule.',
-                                        metavar="",
-                                        to_save=True)
+        self.path = Argument(name='path',
+                             abbreviation_name='-p',
+                             full_name='--path',
+                             help_message='absolute path of file to schedule.',
+                             metavar="",
+                             to_save=True)
 
         self.days = Argument(name='days',
                              abbreviation_name='-d',
@@ -48,22 +48,22 @@ class Specific(Arguments):
                              to_save=True,
                              default='at startup')
 
-        self.job = Argument(name='job',
-                            abbreviation_name='-j',
-                            full_name='--job',
-                            help_message='specifies the job the scheduler is going to do. example: -j',
-                            metavar="",
-                            to_save=True,
-                            default=['open_program'])
+        # self.job = Argument(name='job',
+        #                     abbreviation_name='-j',
+        #                     full_name='--job',
+        #                     help_message='specifies the job the scheduler is going to do. example: -j',
+        #                     metavar="",
+        #                     to_save=True,
+        #                     default=['open_program'])
 
     def set_are_configs_saved(self, are_configs_saved):
         self.are_configs_saved = are_configs_saved
 
     def add_arguments(self, args_parser):
-        args_parser.add_argument(self.executable_path.abbreviation_name, self.executable_path.full_name,
+        args_parser.add_argument(self.path.abbreviation_name, self.path.full_name,
                                  required=not self.are_configs_saved,
-                                 help=self.executable_path.help_message,
-                                 metavar=self.executable_path.metavar,
+                                 help=self.path.help_message,
+                                 metavar=self.path.metavar,
                                  default=argparse.SUPPRESS)
 
         args_parser.add_argument(self.alias.abbreviation_name, self.alias.full_name,
@@ -80,12 +80,12 @@ class Specific(Arguments):
                                  metavar=self.days.metavar,
                                  default=argparse.SUPPRESS)
 
-        args_parser.add_argument(self.job.abbreviation_name, self.job.full_name,
-                                 required=not self.are_configs_saved,
-                                 choices=self.job.default,
-                                 help=self.job.help_message,
-                                 metavar=self.job.metavar,
-                                 default=argparse.SUPPRESS)
+        # args_parser.add_argument(self.job.abbreviation_name, self.job.full_name,
+        #                          required=not self.are_configs_saved,
+        #                          choices=self.job.default,
+        #                          help=self.job.help_message,
+        #                          metavar=self.job.metavar,
+        #                          default=argparse.SUPPRESS)
 
         args_parser.add_argument(self.time.abbreviation_name, self.time.full_name,
                                  type=str,
@@ -101,18 +101,15 @@ class Specific(Arguments):
         if self.days.name in user_arguments:
             if user_arguments.days[0] == 'weekdays':
                 user_arguments.days = self.__get_specific_days('weekdays')
-                return
             elif user_arguments.days[0] == 'weekends':
                 user_arguments.days = self.__get_specific_days('weekends')
-                return
             elif user_arguments.days[0] == 'everyday':
                 user_arguments.days = self.__get_specific_days('everyday')
-                return
 
     def __check_any_errors(self):
         try:
-            if not self.__given_argument_path_exists(self.executable_path):
-                throw(self.executable_path + '\' path does not exist.')
+            if not self.__given_argument_path_exists(self.path):
+                throw(self.path + '\' path does not exist.')
         except (AttributeError, TypeError):
             pass
 

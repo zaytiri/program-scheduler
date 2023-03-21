@@ -1,6 +1,6 @@
 import sys
 
-from progscheduler.utils.log import show
+from progscheduler.utils.log import show, throw
 from progscheduler.utils.yaml import read_yaml, write_yaml
 
 
@@ -10,7 +10,10 @@ class Commands:
     def delete_config(user_arguments, file_path):
         saved_configs = read_yaml(file_path)
 
-        saved_configs.pop(user_arguments.delete)
+        try:
+            saved_configs.pop(user_arguments.delete)
+        except KeyError:
+            throw('\"' + user_arguments.delete + '\" setting does not exist.')
 
         if saved_configs:
             write_yaml(file_path, saved_configs)
@@ -30,7 +33,7 @@ class Commands:
             current_configurations_list += \
                 '\n\t\t\t' + str(list_of_configs[key]['alias']) + ':\n\t\t\t\t' \
                 + 'alias: ' + str(list_of_configs[key]['alias']) + '\n\t\t\t\t' \
-                + 'executable_path: ' + str(list_of_configs[key]['executable_path']) + '\n\t\t\t\t' \
+                + 'path: ' + str(list_of_configs[key]['path']) + '\n\t\t\t\t' \
                 + 'days: ' + str(list_of_configs[key]['days']) + '\n\t\t\t\t' \
                 + 'time: ' + str(list_of_configs[key]['time']) + '\n\t\t\t\t'
 
