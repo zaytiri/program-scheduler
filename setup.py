@@ -29,7 +29,7 @@ setup(
         "Programming Language :: Python :: 3",
     ],
     keywords="program, schedule, scheduler, startup, days, open, files, folders",
-    package_data={'progscheduler': ['progsettings.yaml']},
+    package_data={'progscheduler': ['version/progsettings.yaml']},
     packages=["progscheduler", "progscheduler.settings", "progscheduler.utils", "progscheduler.version"],
     python_requires=">=3.10.6",
     install_requires=[
