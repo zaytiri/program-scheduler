@@ -1,5 +1,3 @@
-import os
-import signal
 import sys
 from datetime import datetime
 
@@ -26,15 +24,14 @@ def validate(arguments):
     if not arguments['Generic'].run.value:
         sys.exit()
 
+    if arguments['Generic'].exit_when_done.value:
+        show('Option: \"exit-when-done\" is enabled. This windows will close automatically when all jobs are done.')
+
     if arguments['Generic'].time_to_stop.value != 'off'.lower():
         now = datetime.utcnow()
         time = arguments['Generic'].time_to_stop.value.split(':')
         if now.hour >= int(time[0]) and now.minute > int(time[1]):
-            show('Option: \"time-to-stop\" is enabled. Nothing will run after defined value: ' + arguments['Generic'].time_to_stop.value + '.')
-            os.kill(os.getppid(), signal.SIGHUP)
-
-    if arguments['Generic'].exit_when_done.value:
-        show('Option: \"exit-when-done\" is enabled. This windows will close automatically when all jobs are done.')
+            sys.exit()
 
 
 def run_scheduler(arguments):
@@ -47,9 +44,6 @@ def run_scheduler(arguments):
         do_scheduled_job(scheduler, arguments['Specific'][program])
 
     scheduler.run(arguments['Generic'].exit_when_done.value)
-
-    if arguments['Generic'].exit_when_done.value:
-        os.kill(os.getppid(), signal.SIGHUP)
 
 
 def do_scheduled_job(scheduler, program):
