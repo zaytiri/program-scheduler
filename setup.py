@@ -1,7 +1,7 @@
 from setuptools import setup
 import pathlib
 
-from version.progsettings import get_version
+from progscheduler.version.progsettings import get_version
 
 here = pathlib.Path(__file__).parent.resolve()
 long_description = (here / "README.md").read_text(encoding="utf-8")

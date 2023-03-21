@@ -9,7 +9,7 @@ from margument.settings_processor import SettingsProcessor
 
 from progscheduler.settings.generic_arguments import Generic
 from progscheduler.settings.specific_arguments import Specific
-from version.progsettings import get_version
+from progscheduler.version.progsettings import get_version
 
 
 class Manager:
