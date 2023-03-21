@@ -24,14 +24,14 @@ def validate(arguments):
     if not arguments['Generic'].run.value:
         sys.exit()
 
-    if arguments['Generic'].exit_when_done.value:
-        show('Option: \"exit-when-done\" is enabled. This windows will close automatically when all jobs are done.')
-
     if arguments['Generic'].time_to_stop.value != 'off'.lower():
         now = datetime.utcnow()
         time = arguments['Generic'].time_to_stop.value.split(':')
         if now.hour >= int(time[0]) and now.minute > int(time[1]):
             sys.exit()
+
+    if arguments['Generic'].exit_when_done.value:
+        show('Option: \"exit-when-done\" is enabled. This windows will close automatically when all jobs are done.')
 
 
 def run_scheduler(arguments):
