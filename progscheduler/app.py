@@ -28,6 +28,7 @@ def validate(arguments):
         now = datetime.utcnow()
         time = arguments['Generic'].time_to_stop.value.split(':')
         if now.hour >= int(time[0]) and now.minute > int(time[1]):
+            show('Option: \"time-to-stop\" is enabled. Nothing will run after defined value: ' + arguments['Generic'].time_to_stop.value + '.')
             sys.exit()
 
     if arguments['Generic'].exit_when_done.value:
