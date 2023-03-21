@@ -41,6 +41,13 @@ class Generic(Arguments):
                                metavar="",
                                command=Commands.delete_config)
 
+        self.run = Argument(name='run',
+                            abbreviation_name='-r',
+                            full_name='--run',
+                            help_message='if specified will run the scheduler.',
+                            metavar="",
+                            default=False)
+
     def add_arguments(self, args_parser):
         args_parser.add_argument(self.list_configs.abbreviation_name, self.list_configs.full_name,
                                  action='store_true',
@@ -61,6 +68,11 @@ class Generic(Arguments):
         args_parser.add_argument(self.delete.abbreviation_name, self.delete.full_name,
                                  help=self.delete.help_message,
                                  metavar=self.delete.metavar,
+                                 default=argparse.SUPPRESS)
+
+        args_parser.add_argument(self.run.abbreviation_name, self.run.full_name,
+                                 action='store_true',
+                                 help=self.run.help_message,
                                  default=argparse.SUPPRESS)
 
     def process_arguments(self, settings):
