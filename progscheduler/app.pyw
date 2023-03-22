@@ -49,9 +49,6 @@ def run_scheduler(arguments):
 
     scheduler.run(arguments['Generic'].exit_when_done.value)
 
-    # if arguments['Generic'].exit_when_done.value:
-    #     exit(0)
-
 
 def do_scheduled_job(scheduler, program):
     scheduler.set_method_to_schedule(lambda: open_program(program.path.value))
