@@ -7,7 +7,7 @@ def throw(message):
 
 
 def show(message, to_exit=False):
-    print('    >>!:\n\t\t' + message + '\n')
+    print('    >>!:\n\t' + message + '\n')
 
     if to_exit:
         sys.exit()
