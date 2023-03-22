@@ -1,3 +1,5 @@
+import os
+import signal
 import sys
 from datetime import datetime
 
@@ -28,7 +30,8 @@ def validate(arguments):
         now = datetime.utcnow()
         time = arguments['Generic'].time_to_stop.value.split(':')
         if now.hour >= int(time[0]) and now.minute > int(time[1]):
-            show('Option: \"time-to-stop\" is enabled. Nothing will run after defined value: ' + arguments['Generic'].time_to_stop.value + '.')
+            show('Option: \"time-to-stop\" is enabled. Nothing will run after defined time: ' + arguments['Generic'].time_to_stop.value + '. Current '
+                'time: ' + str(now.hour) + ':' + str(now.minute))
             sys.exit()
 
     if arguments['Generic'].exit_when_done.value:
@@ -45,6 +48,9 @@ def run_scheduler(arguments):
         do_scheduled_job(scheduler, arguments['Specific'][program])
 
     scheduler.run(arguments['Generic'].exit_when_done.value)
+
+    if arguments['Generic'].exit_when_done.value:
+        os.kill(os.getppid(), signal.SIGHUP)
 
 
 def do_scheduled_job(scheduler, program):
