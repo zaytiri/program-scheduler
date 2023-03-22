@@ -8,12 +8,21 @@ from progscheduler.settings.commands import Commands
 
 class Generic(Arguments):
     def __init__(self):
-        self.list_configs = Argument(name='list_configs',
-                                     abbreviation_name='-all',
-                                     full_name='--list-configs',
-                                     help_message='list all existent saved configurations. example: -all',
-                                     metavar="",
-                                     command=Commands.get_configs)
+        self.schedules = Argument(name='schedules',
+                                  abbreviation_name='-lsch',
+                                  full_name='--schedules',
+                                  help_message='list all saved scheduled jobs. example: -lsch',
+                                  metavar="",
+                                  command=Commands.get_configs,
+                                  default=False)
+
+        self.settings = Argument(name='settings',
+                                 abbreviation_name='-ls',
+                                 full_name='--settings',
+                                 help_message='list all saved global settings. example: -ls',
+                                 metavar="",
+                                 command=Commands.get_global_configs,
+                                 default=False)
 
         self.time_to_stop = Argument(name='time_to_stop',
                                      abbreviation_name='-ts',
@@ -49,9 +58,14 @@ class Generic(Arguments):
                             default=False)
 
     def add_arguments(self, args_parser):
-        args_parser.add_argument(self.list_configs.abbreviation_name, self.list_configs.full_name,
+        args_parser.add_argument(self.schedules.abbreviation_name, self.schedules.full_name,
                                  action='store_true',
-                                 help=self.list_configs.help_message,
+                                 help=self.schedules.help_message,
+                                 default=argparse.SUPPRESS)
+
+        args_parser.add_argument(self.settings.abbreviation_name, self.settings.full_name,
+                                 action='store_true',
+                                 help=self.settings.help_message,
                                  default=argparse.SUPPRESS)
 
         args_parser.add_argument(self.time_to_stop.abbreviation_name, self.time_to_stop.full_name,
@@ -76,5 +90,6 @@ class Generic(Arguments):
                                  default=argparse.SUPPRESS)
 
     def process_arguments(self, settings):
-        self.list_configs.set_command_args(settings[0].file.path)
+        self.schedules.set_command_args(settings[0].file.path)
+        self.settings.set_command_args(settings[1].file.path)
         self.delete.set_command_args((settings[0].user_arguments, settings[0].file.path))
