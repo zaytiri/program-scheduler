@@ -1,6 +1,7 @@
 from setuptools import setup
 import pathlib
-from progscheduler.utils.progsettings import get_version
+
+from progscheduler.version.progsettings import get_version
 
 here = pathlib.Path(__file__).parent.resolve()
 long_description = (here / "README.md").read_text(encoding="utf-8")
@@ -28,8 +29,8 @@ setup(
         "Programming Language :: Python :: 3",
     ],
     keywords="program, schedule, scheduler, startup, days, open, files, folders",
-    package_data={'progscheduler': ['progsettings.yaml']},
-    packages=["progscheduler", "progscheduler.configurations", "progscheduler.entities", "progscheduler.services", "progscheduler.utils"],
+    package_data={'progscheduler': ['version/progsettings.yaml']},
+    packages=["progscheduler", "progscheduler.settings", "progscheduler.utils", "progscheduler.version"],
     python_requires=">=3.10.6",
     install_requires=[
       "PyYAML~=6.0",

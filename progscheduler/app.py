@@ -1,32 +1,65 @@
+import os
+import signal
 import sys
-from progscheduler.arguments import Arguments
+from datetime import datetime
+
 from progscheduler.jobs import open_program
-from progscheduler.utils.information import show
-from scheduler import Scheduler
+from progscheduler.settings.manager import Manager
+from progscheduler.utils.log import show
+from progscheduler.scheduler import Scheduler
 
 
 def main():
-    arguments = Arguments().configure()
+    arguments = get_processed_arguments()
 
-    if arguments[0].configure:
+    validate(arguments)
+
+    run_scheduler(arguments)
+
+
+def get_processed_arguments():
+    manager = Manager()
+    return manager.configure_arguments()
+
+
+def validate(arguments):
+    if not arguments['Generic'].run.value:
         sys.exit()
 
-    show('The program will now start running the scheduler. While this is running this window should not be closed because that will stop the '
-         'schedule. If you know that all scheduled jobs are already finished, then it is safe to close this window.')
+    if arguments['Generic'].time_to_stop.value != 'off'.lower():
+        now = datetime.utcnow()
+        time = arguments['Generic'].time_to_stop.value.split(':')
+        if now.hour >= int(time[0]) and now.minute > int(time[1]):
+            show('Option: \"time-to-stop\" is enabled. Nothing will run after defined time: ' + arguments['Generic'].time_to_stop.value + '. Current '
+                                                                                                                                          'time: ' + str(
+                now.hour) + ':' + str(now.minute))
+            sys.exit()
+
+    if arguments['Generic'].exit_when_done.value:
+        show('Option: \"exit-when-done\" is enabled. This windows will close automatically when all jobs are done.')
+
+
+def run_scheduler(arguments):
+    show('The program will now start running the scheduler.\n\n\t\t\t*NOTE:* While this is running this window should not be closed. If you are '
+         'certain that all scheduled jobs are already finished, then it is safe to close this window.')
 
     scheduler = Scheduler()
 
-    for program in arguments:
-        process_scheduler(scheduler, program)
+    for program in arguments['Specific']:
+        do_scheduled_job(scheduler, arguments['Specific'][program])
 
-    scheduler.run(arguments[0].exit.value)
+    scheduler.run(arguments['Generic'].exit_when_done.value)
+
+    if arguments['Generic'].exit_when_done.value:
+        os.system('title kill_current_terminal_window')
+        os.system(f'taskkill /f /fi "WINDOWTITLE eq kill_current_terminal_window"')
 
 
-def process_scheduler(scheduler, program_to_schedule):
-    scheduler.set_method_to_schedule(lambda: open_program(program_to_schedule.executable_path.value))
+def do_scheduled_job(scheduler, program):
+    scheduler.set_method_to_schedule(lambda: open_program(program.path.value))
     scheduler.process(
-        program_to_schedule.days_to_schedule.value,
-        program_to_schedule.time_to_schedule.value
+        program.days.value,
+        program.time.value
     )
 
 

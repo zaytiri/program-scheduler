@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from progscheduler.utils.information import show
+from progscheduler.utils.log import show
 
 
 def open_program(root_path):
