@@ -31,7 +31,8 @@ def validate(arguments):
         time = arguments['Generic'].time_to_stop.value.split(':')
         if now.hour >= int(time[0]) and now.minute > int(time[1]):
             show('Option: \"time-to-stop\" is enabled. Nothing will run after defined time: ' + arguments['Generic'].time_to_stop.value + '. Current '
-                'time: ' + str(now.hour) + ':' + str(now.minute))
+                                                                                                                                          'time: ' + str(
+                now.hour) + ':' + str(now.minute))
             sys.exit()
 
     if arguments['Generic'].exit_when_done.value:
@@ -48,6 +49,10 @@ def run_scheduler(arguments):
         do_scheduled_job(scheduler, arguments['Specific'][program])
 
     scheduler.run(arguments['Generic'].exit_when_done.value)
+
+    if arguments['Generic'].exit_when_done.value:
+        os.system('title kill_current_terminal_window')
+        os.system(f'taskkill /f /fi "WINDOWTITLE eq kill_current_terminal_window"')
 
 
 def do_scheduled_job(scheduler, program):
