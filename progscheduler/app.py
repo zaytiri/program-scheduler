@@ -40,6 +40,11 @@ def is_time_to_stop_valid(program_name, time_to_stop):
     return False
 
 
+def is_scheduled_today(days_to_schedule):
+    now = datetime.utcnow()
+    return now.strftime("%A").lower() in days_to_schedule
+
+
 def run_scheduler(arguments):
     show('The program will now start running the scheduler.\n\n\t\t\t*NOTE:* While this is running this window should not be closed. If you are '
          'certain that all scheduled jobs are already finished, then it is safe to close this window.')
@@ -57,6 +62,9 @@ def run_scheduler(arguments):
 
 
 def do_scheduled_job(scheduler, program):
+    if not is_scheduled_today(program.days.value):
+        return
+
     if is_time_to_stop_valid(program.alias.value, program.time_to_stop.value):
         return
 
