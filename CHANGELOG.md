@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed
 - Removed
 
+## [2.1.0] - 2023-03-25
+
+### Changed
+- argument '--time-to-stop' is now a specific setting for each scheduled job instead of a global configuration. This means each scheduled program has more flexibility regarding the time to don't run, if progscheduler runs again.
+
+### Fixed
+- for each scheduled job, the program now checks if current day is the day to schedule. This will prevent the scheduler to stop scheduling a job that is not going to do that day.
+
 ## [2.0.0] - 2023-03-22
 
 ### Changed

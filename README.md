@@ -92,7 +92,7 @@ Open an issue if you need to know how to enable this feature in Linux.
 | -p      | **REQUIRED** to create new scheduled job | absolute path of file to schedule (including the extension name except for folders).                                                                                                                  |
 | -d      | **REQUIRED** to create new scheduled job | days to schedule a file within the following options: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday', 'weekdays' and 'weekends'.                            |
 | -t      | **OPTIONAL**                             | specific time to start/open a file. default is '' (empty). if time is empty then the file will start when the progscheduler command is run (at startup if program-scheduler.bat file was configured). |
-| -ts     | **OPTIONAL**                             | define a time for the scheduler to stop running.                                                                                                                                                      |
+| -ts     | **OPTIONAL**                             | define a time for a specific scheduled job to stop running if progscheduler runs.                                                                                                                     |
 | -del    | **OPTIONAL**                             | delete a existing configuration with the file alias.                                                                                                                                                  |
 | -ls     | **OPTIONAL**                             | list all global settings.                                                                                                                                                                             |
 | -lsch   | **OPTIONAL**                             | list all scheduled jobs.                                                                                                                                                                              |
@@ -110,7 +110,6 @@ Open an issue if you need to know how to enable this feature in Linux.
 
 - **By 'file', it means that the progscheduler can schedule executable files, text files, folders, or any type of file to start/open.**
 - If a specific time is set, the file will only start/open from the moment the progscheduler starts running. Meaning if a file is scheduled to start at 08:00 and the progscheduler only starts running at 08:30, then the next time the file will start is at 08:00 the next day (if the progscheduler is running).
-- Every time a new file is scheduled and configured, the progscheduler must be restarted.
 - If a file needs to be scheduled using mixed configurations, for instance, a folder needs to be opened at startup on monday but on 08:15 on friday, then the same file can be configured but always using different file alias.
 
 ---
