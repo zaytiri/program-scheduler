@@ -31,8 +31,7 @@ class Specific(Arguments):
                              abbreviation_name='-d',
                              full_name='--days',
                              help_message='days of the week for when the file will start. multiple values can be set. available set of values: '
-                                          '\'monday\', \'tuesday\', \'wednesday\', '
-                                          '\'thursday\', \'friday\', \'saturday\' and \'sunday\'.',
+                                          '\'monday\', \'tuesday\', \'wednesday\', \'thursday\', \'friday\', \'saturday\' and \'sunday\'.',
                              metavar="",
                              to_save=True,
                              default=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday',
@@ -42,19 +41,20 @@ class Specific(Arguments):
                              abbreviation_name='-t',
                              full_name='--time',
                              help_message='input a specific time to start the file. example: \'08:15\'. default value is: \'at startup\'. If is \'at '
-                                          'startup\' '
-                                          'then the file will be scheduled to open at startup.',
+                                          'startup\' then the file will be scheduled to open at startup.',
                              metavar="",
                              to_save=True,
                              default='at startup')
 
-        # self.job = Argument(name='job',
-        #                     abbreviation_name='-j',
-        #                     full_name='--job',
-        #                     help_message='specifies the job the scheduler is going to do. example: -j',
-        #                     metavar="",
-        #                     to_save=True,
-        #                     default=['open_program'])
+        self.time_to_stop = Argument(name='time_to_stop',
+                                     abbreviation_name='-ts',
+                                     full_name='--time-to-stop',
+                                     help_message='If a time is set, the scheduled job will not run, after specified time. If this argument equals '
+                                                  '\"off\", this setting will be ignored. Time is expected to be according to 24 hours cycle. '
+                                                  'example: -ss 13:30 (meaning the job will not run if time exceeds 13:30), -ss off',
+                                     metavar="",
+                                     to_save=True,
+                                     default='off')
 
     def set_are_configs_saved(self, are_configs_saved):
         self.are_configs_saved = are_configs_saved
@@ -80,18 +80,16 @@ class Specific(Arguments):
                                  metavar=self.days.metavar,
                                  default=argparse.SUPPRESS)
 
-        # args_parser.add_argument(self.job.abbreviation_name, self.job.full_name,
-        #                          required=not self.are_configs_saved,
-        #                          choices=self.job.default,
-        #                          help=self.job.help_message,
-        #                          metavar=self.job.metavar,
-        #                          default=argparse.SUPPRESS)
-
         args_parser.add_argument(self.time.abbreviation_name, self.time.full_name,
                                  type=str,
                                  help=self.time.help_message,
                                  metavar=self.time.metavar,
                                  default=self.time.default)
+
+        args_parser.add_argument(self.time_to_stop.abbreviation_name, self.time_to_stop.full_name,
+                                 help=self.time_to_stop.help_message,
+                                 metavar=self.time_to_stop.metavar,
+                                 default=argparse.SUPPRESS)
 
     def process_arguments(self, settings):
         self.__check_any_errors()

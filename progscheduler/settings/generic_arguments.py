@@ -24,16 +24,6 @@ class Generic(Arguments):
                                  command=Commands.get_global_configs,
                                  default=False)
 
-        self.time_to_stop = Argument(name='time_to_stop',
-                                     abbreviation_name='-ts',
-                                     full_name='--time-to-stop',
-                                     help_message='If a time is set, after this time, the scheduler will not automatically run when rebooting the '
-                                                  'device. If this argument equals \"off\", this setting will be ignored. example: -ss 13:30, '
-                                                  '-ss off',
-                                     metavar="",
-                                     to_save=True,
-                                     default='off')
-
         self.exit_when_done = Argument(name='exit_when_done',
                                        abbreviation_name='',
                                        full_name='--exit-when-done',
@@ -66,11 +56,6 @@ class Generic(Arguments):
         args_parser.add_argument(self.settings.abbreviation_name, self.settings.full_name,
                                  action='store_true',
                                  help=self.settings.help_message,
-                                 default=argparse.SUPPRESS)
-
-        args_parser.add_argument(self.time_to_stop.abbreviation_name, self.time_to_stop.full_name,
-                                 help=self.time_to_stop.help_message,
-                                 metavar=self.time_to_stop.metavar,
                                  default=argparse.SUPPRESS)
 
         args_parser.add_argument(self.exit_when_done.full_name,
