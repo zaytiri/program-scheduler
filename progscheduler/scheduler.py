@@ -101,5 +101,5 @@ class Scheduler:
 
     def __get_now_date(self):
         self.__seconds_delay += 1
-        now = datetime.utcnow() + timedelta(seconds=self.__seconds_delay)
+        now = datetime.now() + timedelta(seconds=self.__seconds_delay)
         return str(now.hour).zfill(2) + ':' + str(now.minute).zfill(2) + ':' + str(now.second).zfill(2)
