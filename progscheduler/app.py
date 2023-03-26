@@ -41,7 +41,7 @@ def is_time_to_stop_valid(program_name, time_to_stop):
 
 
 def is_scheduled_today(days_to_schedule):
-    now = datetime.utcnow()
+    now = datetime.now()
     return now.strftime("%A").lower() in days_to_schedule
 
 
