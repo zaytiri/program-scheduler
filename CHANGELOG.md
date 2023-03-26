@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed
 - Removed
 
+## [2.1.1] - 2023-03-26
+
+### Fixed
+- fixed time issue where the scheduled jobs wouldn't run if the device's time changed. if the time changed for an hour forward on the device, the scheduled jobs wouldn't run because using utcnow() gives a general date. The time should be equal to the device's time.
+- fixed issue where the given path for a specific scheduled job, in the arguments, would not be checked properly if it existed or not.
+
+
 ## [2.1.0] - 2023-03-25
 
 ### Changed
