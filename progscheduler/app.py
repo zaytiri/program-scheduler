@@ -68,6 +68,16 @@ def is_job_active(program_name, status):
     return True
 
 
+def is_excluded_day(program_name, excluded_days):
+    for date in excluded_days:
+        saved_date = date.split('/')
+        validate_date = datetime(day=int(saved_date[0]), month=int(saved_date[1]), year=int(saved_date[2]))
+        if validate_date == datetime.combine(datetime.today().date(), datetime.min.time()):
+            show('Today \"' + program_name + '\" will not run. ' + validate_date.strftime('%d/%m/%Y') + ' is an excluded date.')
+            return True
+    return False
+
+
 def scheduled_job_invalid(program):
     if not is_scheduled_today(program.days.value):
         return True
@@ -78,6 +88,7 @@ def scheduled_job_invalid(program):
     if not is_job_active(program.alias.value, program.status.value):
         return True
 
+    if is_excluded_day(program.alias.value, program.exclude.value):
         return True
 
     return False
