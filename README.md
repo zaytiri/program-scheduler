@@ -54,6 +54,7 @@ Any unimplemented features will be developed by user request, so if you want any
 
 [Python 3](https://www.python.org/downloads/) must be installed.
 
+Must be used the latest version of [margument](https://pypi.org/project/margument/) library.
 <a name="installation"></a>
 
 ## Installation
