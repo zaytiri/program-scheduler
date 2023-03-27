@@ -47,7 +47,7 @@ def run_scheduler(arguments):
 
 def is_time_to_stop(program_name, time_to_stop):
     if time_to_stop != 'off'.lower():
-        now = datetime.utcnow()
+        now = datetime.now()
         time = time_to_stop.split(':')
         if now.hour >= int(time[0]) and now.minute > int(time[1]):
             show('Option: \"time-to-stop\" is enabled for \'' + program_name + '\' and it will not run. Defined time: ' +
