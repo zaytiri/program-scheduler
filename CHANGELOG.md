@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed
 - Removed
 
+## [2.2.0] - 2023-03-27
+
+### Added
+- new argument 'status' for each scheduled job. This will indicate if a specific job will be active or inactive (e.g. if it will run or not). This setting is to be used for when a scheduled job should not run for an unknown period of time. Could be changed anytime.
+- new argument 'exclude' for each scheduled jobs to exclude days, meaning a job will not run in any date that is excluded in the configuration. Could be excluded more than one date, always with the following format: dd/mm/yyyy. Any inserted date will replace any dates configured before.
+
 ## [2.1.1] - 2023-03-26
 
 ### Fixed

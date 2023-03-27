@@ -96,6 +96,8 @@ Open an issue if you need to know how to enable this feature in Linux.
 | -del    | **OPTIONAL**                             | delete a existing configuration with the file alias.                                                                                                                                                  |
 | -ls     | **OPTIONAL**                             | list all global settings.                                                                                                                                                                             |
 | -lsch   | **OPTIONAL**                             | list all scheduled jobs.                                                                                                                                                                              |
+| -st     | **OPTIONAL**                             | sets the status of a specific scheduled job. choices are: 'on' and 'off'. this indicates if a job will run(active-on) or not(inactive-off). default value is 'on'.                                    |
+| -ex     | **OPTIONAL**                             | any dates given will be excluded from the job, meaning a specific scheduled job will not run in any date specified in excluded days.                                                                  |
 
 <a name="important"></a>
 
@@ -142,6 +144,11 @@ progscheduler -a ThisNAmeRefersToCurrentProgramToSchedule -t "08:00"
 To delete an existing configuration:
 ```
 progscheduler -del ThisNAmeRefersToCurrentProgramToSchedule
+```
+
+To add excluded days to 'ThisNAmeRefersToCurrentProgramToSchedule' configuration:
+```
+progscheduler -a ThisNAmeRefersToCurrentProgramToSchedule -ex 29/03/2023 1/5/2023
 ```
 
 When all desired files are scheduled in the configurations, the following command will run the scheduler considering every configuration made:
