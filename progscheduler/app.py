@@ -45,7 +45,7 @@ def run_scheduler(arguments):
         os.system(f'taskkill /f /fi "WINDOWTITLE eq kill_current_terminal_window"')
 
 
-def is_time_to_stop_valid(program_name, time_to_stop):
+def is_time_to_stop(program_name, time_to_stop):
     if time_to_stop != 'off'.lower():
         now = datetime.utcnow()
         time = time_to_stop.split(':')
@@ -61,20 +61,23 @@ def is_scheduled_today(days_to_schedule):
     return now.strftime("%A").lower() in days_to_schedule
 
 
-def is_status_valid(program_name, status):
+def is_job_active(program_name, status):
     if status.lower() == 'off'.lower():
         show('\"' + program_name + '\" is inactive and it will not run. Status: OFF.')
-        return True
+        return False
+    return True
 
 
 def scheduled_job_invalid(program):
     if not is_scheduled_today(program.days.value):
         return True
 
-    if is_time_to_stop_valid(program.alias.value, program.time_to_stop.value):
+    if is_time_to_stop(program.alias.value, program.time_to_stop.value):
         return True
 
-    if is_status_valid(program.alias.value, program.status.value):
+    if not is_job_active(program.alias.value, program.status.value):
+        return True
+
         return True
 
     return False
