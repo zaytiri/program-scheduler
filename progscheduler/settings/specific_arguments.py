@@ -107,10 +107,10 @@ class Specific(Arguments):
                                  default=argparse.SUPPRESS)
 
     def process_arguments(self, settings):
-        self.__check_any_errors(settings[0].user_arguments)
-        self.__process_days(settings[0].user_arguments)
+        self.__validate_path(settings[0].user_arguments)
+        self.__validate_days(settings[0].user_arguments)
 
-    def __process_days(self, user_arguments):
+    def __validate_days(self, user_arguments):
         if self.days.name in user_arguments:
             if user_arguments.days[0] == 'weekdays':
                 user_arguments.days = self.__get_specific_days('weekdays')
@@ -119,12 +119,10 @@ class Specific(Arguments):
             elif user_arguments.days[0] == 'everyday':
                 user_arguments.days = self.__get_specific_days('everyday')
 
-    def __check_any_errors(self, user_args):
-        try:
-            if not self.__given_argument_path_exists(user_args.path):
-                throw(user_args.path + '\' path does not exist.')
-        except (AttributeError, TypeError):
-            pass
+    def __validate_path(self, user_arguments):
+        if self.path.name in user_arguments:
+            if not self.__given_argument_path_exists(user_arguments.path):
+                throw('\'' + user_arguments.path + '\' path does not exist.')
 
     def __get_specific_days(self, days_specified):
         days = []
