@@ -49,12 +49,21 @@ class Specific(Arguments):
         self.time_to_stop = Argument(name='time_to_stop',
                                      abbreviation_name='-ts',
                                      full_name='--time-to-stop',
-                                     help_message='If a time is set, the scheduled job will not run, after specified time. If this argument equals '
-                                                  '\"off\", this setting will be ignored. Time is expected to be according to 24 hours cycle. '
+                                     help_message='If a time is set, the scheduled job will not run, after specified time in a day. If this argument '
+                                                  'equals \"off\", this setting will be ignored. Time is expected to be according to 24 hours cycle. '
                                                   'example: -ss 13:30 (meaning the job will not run if time exceeds 13:30), -ss off',
                                      metavar="",
                                      to_save=True,
                                      default='off')
+
+        self.status = Argument(name='status',
+                               abbreviation_name='-st',
+                               full_name='--status',
+                               help_message='This indicates if a scheduled job is active or inactive. Default value is \"on\". example -st on, '
+                                            '-st off',
+                               metavar="",
+                               to_save=True,
+                               default='on')
 
     def set_are_configs_saved(self, are_configs_saved):
         self.are_configs_saved = are_configs_saved
@@ -84,11 +93,17 @@ class Specific(Arguments):
                                  type=str,
                                  help=self.time.help_message,
                                  metavar=self.time.metavar,
-                                 default=self.time.default)
+                                 default=argparse.SUPPRESS)
 
         args_parser.add_argument(self.time_to_stop.abbreviation_name, self.time_to_stop.full_name,
                                  help=self.time_to_stop.help_message,
                                  metavar=self.time_to_stop.metavar,
+                                 default=argparse.SUPPRESS)
+
+        args_parser.add_argument(self.status.abbreviation_name, self.status.full_name,
+                                 choices=['on', 'off'],
+                                 help=self.status.help_message,
+                                 metavar=self.status.metavar,
                                  default=argparse.SUPPRESS)
 
     def process_arguments(self, settings):
