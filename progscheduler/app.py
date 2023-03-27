@@ -45,9 +45,9 @@ def run_scheduler(arguments):
         os.system(f'taskkill /f /fi "WINDOWTITLE eq kill_current_terminal_window"')
 
 
-def is_time_to_stop_valid(program_name, time_to_stop):
+def is_time_to_stop(program_name, time_to_stop):
     if time_to_stop != 'off'.lower():
-        now = datetime.utcnow()
+        now = datetime.now()
         time = time_to_stop.split(':')
         if now.hour >= int(time[0]) and now.minute > int(time[1]):
             show('Option: \"time-to-stop\" is enabled for \'' + program_name + '\' and it will not run. Defined time: ' +
@@ -61,20 +61,34 @@ def is_scheduled_today(days_to_schedule):
     return now.strftime("%A").lower() in days_to_schedule
 
 
-def is_status_valid(program_name, status):
+def is_job_active(program_name, status):
     if status.lower() == 'off'.lower():
         show('\"' + program_name + '\" is inactive and it will not run. Status: OFF.')
-        return True
+        return False
+    return True
+
+
+def is_excluded_day(program_name, excluded_days):
+    for date in excluded_days:
+        saved_date = date.split('/')
+        validate_date = datetime(day=int(saved_date[0]), month=int(saved_date[1]), year=int(saved_date[2]))
+        if validate_date == datetime.combine(datetime.today().date(), datetime.min.time()):
+            show('Today \"' + program_name + '\" will not run. ' + validate_date.strftime('%d/%m/%Y') + ' is an excluded date.')
+            return True
+    return False
 
 
 def scheduled_job_invalid(program):
     if not is_scheduled_today(program.days.value):
         return True
 
-    if is_time_to_stop_valid(program.alias.value, program.time_to_stop.value):
+    if is_time_to_stop(program.alias.value, program.time_to_stop.value):
         return True
 
-    if is_status_valid(program.alias.value, program.status.value):
+    if not is_job_active(program.alias.value, program.status.value):
+        return True
+
+    if is_excluded_day(program.alias.value, program.exclude.value):
         return True
 
     return False

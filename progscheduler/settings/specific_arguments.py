@@ -1,10 +1,11 @@
 import argparse
+from datetime import datetime
 
 from margument.argument import Argument
 from margument.arguments import Arguments
 
 from progscheduler.utils.directory import Directory
-from progscheduler.utils.log import throw
+from progscheduler.utils.log import throw, show
 
 
 class Specific(Arguments):
@@ -65,6 +66,16 @@ class Specific(Arguments):
                                to_save=True,
                                default='on')
 
+        self.exclude = Argument(name='exclude',
+                                abbreviation_name='-ex',
+                                full_name='--exclude',
+                                help_message='This indicates the specific days for when a specific scheduled job will not run. Can be added multiple '
+                                             'dates in the format dd/mm/yyyy. Default value is empty. example: -ex 29/03/2023 25/12/2023. [NOTE]: '
+                                             'Any dates inserted will be replacing dates configured before.',
+                                metavar="",
+                                to_save=True,
+                                default=[])
+
     def set_are_configs_saved(self, are_configs_saved):
         self.are_configs_saved = are_configs_saved
 
@@ -106,11 +117,18 @@ class Specific(Arguments):
                                  metavar=self.status.metavar,
                                  default=argparse.SUPPRESS)
 
-    def process_arguments(self, settings):
-        self.__check_any_errors(settings[0].user_arguments)
-        self.__process_days(settings[0].user_arguments)
+        args_parser.add_argument(self.exclude.abbreviation_name, self.exclude.full_name,
+                                 nargs='*',
+                                 help=self.exclude.help_message,
+                                 metavar=self.exclude.metavar,
+                                 default=argparse.SUPPRESS)
 
-    def __process_days(self, user_arguments):
+    def process_arguments(self, settings):
+        self.__validate_exclude_dates(settings[0].user_arguments)
+        self.__validate_path(settings[0].user_arguments)
+        self.__validate_days(settings[0].user_arguments)
+
+    def __validate_days(self, user_arguments):
         if self.days.name in user_arguments:
             if user_arguments.days[0] == 'weekdays':
                 user_arguments.days = self.__get_specific_days('weekdays')
@@ -119,12 +137,21 @@ class Specific(Arguments):
             elif user_arguments.days[0] == 'everyday':
                 user_arguments.days = self.__get_specific_days('everyday')
 
-    def __check_any_errors(self, user_args):
-        try:
-            if not self.__given_argument_path_exists(user_args.path):
-                throw(user_args.path + '\' path does not exist.')
-        except (AttributeError, TypeError):
-            pass
+    def __validate_exclude_dates(self, user_arguments):
+        if self.exclude.name in user_arguments:
+            for date in user_arguments.exclude:
+                user_date = date.split('/')
+                try:
+                    validate_date = datetime(day=int(user_date[0]), month=int(user_date[1]), year=int(user_date[2]))
+                    if validate_date < datetime.combine(datetime.today().date(), datetime.min.time()):
+                        show('\'' + date + '\': is an old date. It will be ignored.', to_exit=True)
+                except ValueError:
+                    throw('\'' + date + '\': date not valid.')
+
+    def __validate_path(self, user_arguments):
+        if self.path.name in user_arguments:
+            if not self.__given_argument_path_exists(user_arguments.path):
+                throw('\'' + user_arguments.path + '\' path does not exist.')
 
     def __get_specific_days(self, days_specified):
         days = []
