@@ -7,7 +7,7 @@ from margument.arguments import Arguments
 
 from progscheduler.utils.directory import Directory
 from progscheduler.utils.log import throw, show
-from progscheduler.utils.reflection import get_class_variables
+from progscheduler.utils.reflection import get_class_variables, convert_to_dict
 
 
 class Specific(Arguments):
@@ -186,27 +186,29 @@ class Specific(Arguments):
                 throw('\'' + date + '\': date not valid.')
 
     def __validate_exclude_include_dates(self, file, user_arguments):
-        dates = []
-        if self.alias.name in user_arguments and user_arguments.alias in file:
-            try:
-                self.__validate_dates(file[user_arguments.alias]['include'], dates)
-                self.__validate_dates(file[user_arguments.alias]['exclude'], dates)
-            except KeyError:
-                pass
+        include_dates = self.__get_dates_list(file, user_arguments, self.include.name)
+        exclude_dates = self.__get_dates_list(file, user_arguments, self.exclude.name)
 
-        if self.exclude.name in user_arguments:
-            self.__validate_dates(user_arguments.exclude, dates)
-
-        if self.include.name in user_arguments:
-            self.__validate_dates(user_arguments.include, dates)
-
-        counter = Counter(dates)
-        duplicate_dates = [key for (key, value) in counter.items() if value > 1 and key]
+        duplicate_dates = set(include_dates) & set(exclude_dates)
         if duplicate_dates:
-            message = 'Following dates exist on both exclude and include lists:'
+            message = 'Following dates will exist on both exclude and include lists:'
             for dup in duplicate_dates:
                 message += '\n\t\t   - ' + dup.strftime('%d/%m/%Y')
             throw(message)
+
+    def __get_dates_list(self, file, user_arguments, name):
+        dates = []
+        if self.alias.name in user_arguments and user_arguments.alias in file:
+            try:
+                self.__validate_dates(file[user_arguments.alias][name], dates)
+            except KeyError:
+                pass
+
+        if name in user_arguments:
+            args = convert_to_dict(user_arguments)
+            self.__validate_dates(args[name], dates)
+
+        return dates
 
     def __validate_path(self, user_arguments):
         if self.path.name in user_arguments:
