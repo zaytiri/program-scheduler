@@ -1,4 +1,5 @@
 import argparse
+from collections import Counter
 from datetime import datetime
 
 from margument.argument import Argument
@@ -6,6 +7,7 @@ from margument.arguments import Arguments
 
 from progscheduler.utils.directory import Directory
 from progscheduler.utils.log import throw, show
+from progscheduler.utils.reflection import get_class_variables
 
 
 class Specific(Arguments):
@@ -15,8 +17,8 @@ class Specific(Arguments):
         self.alias = Argument(name='alias',
                               abbreviation_name='-a',
                               full_name='--alias',
-                              help_message='chosen UNIQUE alias for the file. when updating any configurations this flag needs to be used. this only '
-                                           'works if the file path already exists in the configurations.',
+                              help_message='A UNIQUE alias for the file to be scheduled. When creating and/or updating any configurations, '
+                                           'this alias needs to be present.',
                               metavar="",
                               to_save=True,
                               is_main=True)
@@ -24,15 +26,18 @@ class Specific(Arguments):
         self.path = Argument(name='path',
                              abbreviation_name='-p',
                              full_name='--path',
-                             help_message='absolute path of file to schedule.',
+                             help_message='Absolute path of the file to be scheduled.',
                              metavar="",
-                             to_save=True)
+                             to_save=True,
+                             default='')
 
         self.days = Argument(name='days',
                              abbreviation_name='-d',
                              full_name='--days',
-                             help_message='days of the week for when the file will start. multiple values can be set. available set of values: '
-                                          '\'monday\', \'tuesday\', \'wednesday\', \'thursday\', \'friday\', \'saturday\' and \'sunday\'.',
+                             help_message='Days of the week for when the scheduled job will run. Multiple values can be inserted. Following '
+                                          'are the available set of values: \'monday\', \'tuesday\', \'wednesday\', \'thursday\', \'friday\', '
+                                          '\'saturday\', \'sunday\', \'everyday\', \'weekdays\' and \'weekends\'. The 3 latter should be used '
+                                          'individually.',
                              metavar="",
                              to_save=True,
                              default=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday',
@@ -41,8 +46,8 @@ class Specific(Arguments):
         self.time = Argument(name='time',
                              abbreviation_name='-t',
                              full_name='--time',
-                             help_message='input a specific time to start the file. example: \'08:15\'. default value is: \'at startup\'. If is \'at '
-                                          'startup\' then the file will be scheduled to open at startup.',
+                             help_message='Insert a specific time to start the file. example: \'08:15\'. default value is: \'at startup\'. If is '
+                                          '\'at startup\' then the file will be scheduled to open first thing when the program runs.',
                              metavar="",
                              to_save=True,
                              default='at startup')
@@ -72,6 +77,16 @@ class Specific(Arguments):
                                 help_message='This indicates the specific days for when a specific scheduled job will not run. Can be added multiple '
                                              'dates in the format dd/mm/yyyy. Default value is empty. example: -ex 29/03/2023 25/12/2023. [NOTE]: '
                                              'Any dates inserted will be replacing dates configured before.',
+                                metavar="",
+                                to_save=True,
+                                default=[])
+
+        self.include = Argument(name='include',
+                                abbreviation_name='-in',
+                                full_name='--include',
+                                help_message='This indicates the specific days for when a specific scheduled job should run that it wouldn\'t '
+                                             'normally run. Can be added multiple dates in the format dd/mm/yyyy. Default value is empty. example: '
+                                             '-in 14/03/2023 23/06/2023. [NOTE]: Any dates inserted will be replacing dates configured before.',
                                 metavar="",
                                 to_save=True,
                                 default=[])
@@ -123,10 +138,29 @@ class Specific(Arguments):
                                  metavar=self.exclude.metavar,
                                  default=argparse.SUPPRESS)
 
+        args_parser.add_argument(self.include.abbreviation_name, self.include.full_name,
+                                 nargs='*',
+                                 help=self.include.help_message,
+                                 metavar=self.include.metavar,
+                                 default=argparse.SUPPRESS)
+
     def process_arguments(self, settings):
-        self.__validate_exclude_dates(settings[0].user_arguments)
+        self.__validate_existence_of_alias(settings[0].user_arguments)
         self.__validate_path(settings[0].user_arguments)
         self.__validate_days(settings[0].user_arguments)
+        self.__validate_exclude_include_dates(settings[0].settings_from_file, settings[0].user_arguments)
+
+    def __validate_existence_of_alias(self, user_arguments):
+        is_configurable = False
+        for var in get_class_variables(self):
+            if not isinstance(var[1], Argument):
+                continue
+
+            if var[1].name in user_arguments:
+                is_configurable = True
+
+        if is_configurable and self.alias.name not in user_arguments:
+            throw('An alias is needed for specific configurations.')
 
     def __validate_days(self, user_arguments):
         if self.days.name in user_arguments:
@@ -136,17 +170,40 @@ class Specific(Arguments):
                 user_arguments.days = self.__get_specific_days('weekends')
             elif user_arguments.days[0] == 'everyday':
                 user_arguments.days = self.__get_specific_days('everyday')
+            return
+        user_arguments.days = self.__get_specific_days('everyday')
 
-    def __validate_exclude_dates(self, user_arguments):
+    @staticmethod
+    def __validate_dates(user_list, current_dates):
+        for date in user_list:
+            user_date = date.split('/')
+            try:
+                validate_date = datetime(day=int(user_date[0]), month=int(user_date[1]), year=int(user_date[2]))
+                if validate_date < datetime.combine(datetime.today().date(), datetime.min.time()):
+                    show('\'' + date + '\': is an old date. It will be ignored.', to_exit=True)
+                current_dates.append(validate_date)
+            except ValueError:
+                throw('\'' + date + '\': date not valid.')
+
+    def __validate_exclude_include_dates(self, file, user_arguments):
+        dates = []
+        if self.alias.name in user_arguments and user_arguments.alias in file:
+            self.__validate_dates(file[user_arguments.alias]['include'], dates)
+            self.__validate_dates(file[user_arguments.alias]['exclude'], dates)
+
         if self.exclude.name in user_arguments:
-            for date in user_arguments.exclude:
-                user_date = date.split('/')
-                try:
-                    validate_date = datetime(day=int(user_date[0]), month=int(user_date[1]), year=int(user_date[2]))
-                    if validate_date < datetime.combine(datetime.today().date(), datetime.min.time()):
-                        show('\'' + date + '\': is an old date. It will be ignored.', to_exit=True)
-                except ValueError:
-                    throw('\'' + date + '\': date not valid.')
+            self.__validate_dates(user_arguments.exclude, dates)
+
+        if self.include.name in user_arguments:
+            self.__validate_dates(user_arguments.include, dates)
+
+        counter = Counter(dates)
+        duplicate_dates = [key for (key, value) in counter.items() if value > 1 and key]
+        if duplicate_dates:
+            message = 'Following dates exist on both exclude and include lists:'
+            for dup in duplicate_dates:
+                message += '\n\t\t   - ' + dup.strftime('%d/%m/%Y')
+            throw(message)
 
     def __validate_path(self, user_arguments):
         if self.path.name in user_arguments:
