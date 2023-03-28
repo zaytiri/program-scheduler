@@ -151,6 +151,8 @@ class Specific(Arguments):
                 user_arguments.days = self.__get_specific_days('weekends')
             elif user_arguments.days[0] == 'everyday':
                 user_arguments.days = self.__get_specific_days('everyday')
+            return
+        user_arguments.days = self.__get_specific_days('everyday')
 
     def __validate_exclude_dates(self, user_arguments):
         if self.exclude.name in user_arguments:
