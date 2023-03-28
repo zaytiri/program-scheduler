@@ -40,8 +40,7 @@ class Specific(Arguments):
                                           'individually.',
                              metavar="",
                              to_save=True,
-                             default=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday',
-                                      'weekdays', 'weekends'])
+                             default=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
 
         self.time = Argument(name='time',
                              abbreviation_name='-t',
@@ -108,9 +107,9 @@ class Specific(Arguments):
                                  default=argparse.SUPPRESS)
 
         args_parser.add_argument(self.days.abbreviation_name, self.days.full_name,
-                                 required=not self.are_configs_saved,
                                  nargs='*',
-                                 choices=self.days.default,
+                                 choices=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday',
+                                          'weekdays', 'weekends'],
                                  help=self.days.help_message,
                                  metavar=self.days.metavar,
                                  default=argparse.SUPPRESS)
@@ -170,8 +169,6 @@ class Specific(Arguments):
                 user_arguments.days = self.__get_specific_days('weekends')
             elif user_arguments.days[0] == 'everyday':
                 user_arguments.days = self.__get_specific_days('everyday')
-            return
-        user_arguments.days = self.__get_specific_days('everyday')
 
     @staticmethod
     def __validate_dates(user_list, current_dates):
