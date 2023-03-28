@@ -188,8 +188,11 @@ class Specific(Arguments):
     def __validate_exclude_include_dates(self, file, user_arguments):
         dates = []
         if self.alias.name in user_arguments and user_arguments.alias in file:
-            self.__validate_dates(file[user_arguments.alias]['include'], dates)
-            self.__validate_dates(file[user_arguments.alias]['exclude'], dates)
+            try:
+                self.__validate_dates(file[user_arguments.alias]['include'], dates)
+                self.__validate_dates(file[user_arguments.alias]['exclude'], dates)
+            except KeyError:
+                pass
 
         if self.exclude.name in user_arguments:
             self.__validate_dates(user_arguments.exclude, dates)
