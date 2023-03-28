@@ -15,8 +15,8 @@ class Specific(Arguments):
         self.alias = Argument(name='alias',
                               abbreviation_name='-a',
                               full_name='--alias',
-                              help_message='chosen UNIQUE alias for the file. when updating any configurations this flag needs to be used. this only '
-                                           'works if the file path already exists in the configurations.',
+                              help_message='A UNIQUE alias for the file to be scheduled. When creating and/or updating any configurations, '
+                                           'this alias needs to be present.',
                               metavar="",
                               to_save=True,
                               is_main=True)
@@ -24,15 +24,18 @@ class Specific(Arguments):
         self.path = Argument(name='path',
                              abbreviation_name='-p',
                              full_name='--path',
-                             help_message='absolute path of file to schedule.',
+                             help_message='Absolute path of the file to be scheduled.',
                              metavar="",
-                             to_save=True)
+                             to_save=True,
+                             default='')
 
         self.days = Argument(name='days',
                              abbreviation_name='-d',
                              full_name='--days',
-                             help_message='days of the week for when the file will start. multiple values can be set. available set of values: '
-                                          '\'monday\', \'tuesday\', \'wednesday\', \'thursday\', \'friday\', \'saturday\' and \'sunday\'.',
+                             help_message='Days of the week for when the scheduled job will run. Multiple values can be inserted. Following '
+                                          'are the available set of values: \'monday\', \'tuesday\', \'wednesday\', \'thursday\', \'friday\', '
+                                          '\'saturday\', \'sunday\', \'everyday\', \'weekdays\' and \'weekends\'. The 3 latter should be used '
+                                          'individually.',
                              metavar="",
                              to_save=True,
                              default=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday',
@@ -41,8 +44,8 @@ class Specific(Arguments):
         self.time = Argument(name='time',
                              abbreviation_name='-t',
                              full_name='--time',
-                             help_message='input a specific time to start the file. example: \'08:15\'. default value is: \'at startup\'. If is \'at '
-                                          'startup\' then the file will be scheduled to open at startup.',
+                             help_message='Insert a specific time to start the file. example: \'08:15\'. default value is: \'at startup\'. If is '
+                                          '\'at startup\' then the file will be scheduled to open first thing when the program runs.',
                              metavar="",
                              to_save=True,
                              default='at startup')
