@@ -108,8 +108,8 @@ class Specific(Arguments):
 
         args_parser.add_argument(self.days.abbreviation_name, self.days.full_name,
                                  nargs='*',
-                                 choices=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday',
-                                          'weekdays', 'weekends'],
+                                 choices=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday', 'weekdays',
+                                          'weekends'],
                                  help=self.days.help_message,
                                  metavar=self.days.metavar,
                                  default=argparse.SUPPRESS)
