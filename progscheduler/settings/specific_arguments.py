@@ -128,8 +128,20 @@ class Specific(Arguments):
 
     def process_arguments(self, settings):
         self.__validate_exclude_dates(settings[0].user_arguments)
+        self.__validate_existence_of_alias(settings[0].user_arguments)
         self.__validate_path(settings[0].user_arguments)
         self.__validate_days(settings[0].user_arguments)
+    def __validate_existence_of_alias(self, user_arguments):
+        is_configurable = False
+        for var in get_class_variables(self):
+            if not isinstance(var[1], Argument):
+                continue
+
+            if var[1].name in user_arguments:
+                is_configurable = True
+
+        if is_configurable and self.alias.name not in user_arguments:
+            throw('An alias is needed for specific configurations.')
 
     def __validate_days(self, user_arguments):
         if self.days.name in user_arguments:
