@@ -11,6 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed
 - Removed
 
+## [2.3.0] - 2023-03-28
+
+### Added
+- validation for verifying if the alias is present in the arguments if there is any configurable setting for a scheduled job.
+- new argument 'include' for each scheduled job which does the opposite of 'exclude' argument. It indicates a list of dates that a scheduled job should run that it wouldn't normally do. Any dates inserted will replace any previous configured dates in saved 'include' argument.
+- validation for dates in 'include' and 'exclude' arguments, meaning the same date cannot be inserted in both configurations at the same time for a scheduled job.
+- validation for when a scheduled job's path does not exist.
+
+### Changed
+- updated help messages from some arguments.
+- updated README.md file.
+
 ## [2.2.0] - 2023-03-27
 
 ### Added
@@ -22,7 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - fixed time issue where the scheduled jobs wouldn't run if the device's time changed. if the time changed for an hour forward on the device, the scheduled jobs wouldn't run because using utcnow() gives a general date. The time should be equal to the device's time.
 - fixed issue where the given path for a specific scheduled job, in the arguments, would not be checked properly if it existed or not.
-
 
 ## [2.1.0] - 2023-03-25
 

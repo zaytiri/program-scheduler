@@ -86,19 +86,24 @@ Open an issue if you need to know how to enable this feature in Linux.
 
 ## Usage
 
-| Command | Type                                     | Description                                                                                                                                                                                           |
-|:--------|------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| --run   | **REQUIRED** for the scheduler to run    | if specified, the scheduler will start running using user-defined configurations.                                                                                                                     |
-| -a      | **REQUIRED** to create new scheduled job | file alias. this name is UNIQUE within all scheduled files. to create or update any configuration regarding a specific file, this is required.                                                        |
-| -p      | **REQUIRED** to create new scheduled job | absolute path of file to schedule (including the extension name except for folders).                                                                                                                  |
-| -d      | **REQUIRED** to create new scheduled job | days to schedule a file within the following options: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday', 'weekdays' and 'weekends'.                            |
-| -t      | **OPTIONAL**                             | specific time to start/open a file. default is '' (empty). if time is empty then the file will start when the progscheduler command is run (at startup if program-scheduler.bat file was configured). |
-| -ts     | **OPTIONAL**                             | define a time for a specific scheduled job to stop running if progscheduler runs.                                                                                                                     |
-| -del    | **OPTIONAL**                             | delete a existing configuration with the file alias.                                                                                                                                                  |
-| -ls     | **OPTIONAL**                             | list all global settings.                                                                                                                                                                             |
-| -lsch   | **OPTIONAL**                             | list all scheduled jobs.                                                                                                                                                                              |
-| -st     | **OPTIONAL**                             | sets the status of a specific scheduled job. choices are: 'on' and 'off'. this indicates if a job will run(active-on) or not(inactive-off). default value is 'on'.                                    |
-| -ex     | **OPTIONAL**                             | any dates given will be excluded from the job, meaning a specific scheduled job will not run in any date specified in excluded days.                                                                  |
+| Command (shortcut)                   | Command (full)                       | Type                                     | Description                                                                                                                                                                                           |
+|:-------------------------------------|:-------------------------------------|------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --run                                | --run                                | **REQUIRED** for the scheduler to run    | if specified, the scheduler will start running using user-defined configurations.                                                                                                                     |
+| -a                                   | --alias                              | **REQUIRED** to create new scheduled job | file alias. this name is UNIQUE within all scheduled files. to create or update any configuration regarding a specific file, this is required.                                                        |
+| -p                                   | --path                               | **REQUIRED** to create new scheduled job | absolute path of file to schedule (including the extension name except for folders).                                                                                                                  |
+| -d                                   | --days                               | **REQUIRED** to create new scheduled job | days to schedule a file within the following options: 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'everyday', 'weekdays' and 'weekends'.                            |
+| -t                                   | --time                               | **OPTIONAL**                             | specific time to start/open a file. default is '' (empty). if time is empty then the file will start when the progscheduler command is run (at startup if program-scheduler.bat file was configured). |
+| -ts                                  | --time-to-stop                       | **OPTIONAL**                             | define a time for a specific scheduled job to stop running if progscheduler runs.                                                                                                                     |
+| -del                                 | --delete                             | **OPTIONAL**                             | delete a existing configuration with the file alias.                                                                                                                                                  |
+| -ls                                  | --schedules                          | **OPTIONAL**                             | list all global settings.                                                                                                                                                                             |
+| -lsch                                | --settings                           | **OPTIONAL**                             | list all scheduled jobs.                                                                                                                                                                              |
+| -st                                  | --status                             | **OPTIONAL**                             | sets the status of a specific scheduled job. choices are: 'on' and 'off'. this indicates if a job will run(active-on) or not(inactive-off). default value is 'on'.                                    |
+| -ex                                  | --exclude                            | **OPTIONAL**                             | any dates given will be excluded from the job, meaning a specific scheduled job will not run in any date specified in excluded days.                                                                  |
+| -in                                  | --include                            | **OPTIONAL**                             | any dates given will be included in a job, meaning a specific scheduled job will run in any date specified in included days.                                                                          |
+| --exit-when-done/--no-exit-when-done | --exit-when-done/--no-exit-when-done | **OPTIONAL**                             | boolean value. if specified, the program window will exit automatically when all scheduled jobs finished that particular day. default value: false                                                    |
+
+
+
 
 <a name="important"></a>
 
@@ -129,27 +134,56 @@ progscheduler -h
 
 Before running the scheduler, at least one program needs to be configured. The following command will configure the 'program.exe' to start when the computer boots up every monday, friday and saturday
 ```
-progscheduler -a ThisNAmeRefersToCurrentProgramToSchedule -p "C:\Users\<username>\Desktop\program.exe" -d monday friday saturday
-```
-
-To configure an existing program to change days to schedule:
-```
-progscheduler -a ThisNAmeRefersToCurrentProgramToSchedule -d everyday
+progscheduler -a ProgramOrFolderToScheduleUniqueName -p "C:\Users\<username>\Desktop\program.exe" -d monday friday saturday
 ```
 
 To configure an existing program to change time to schedule. The following command would schedule a program to start every day and at 08:00:
 ```
-progscheduler -a ThisNAmeRefersToCurrentProgramToSchedule -t "08:00"
+progscheduler -a ProgramOrFolderToScheduleUniqueName -t "08:00"
+```
+
+To add excluded days to 'ProgramOrFolderToScheduleUniqueName' configuration:
+```
+progscheduler -a ProgramOrFolderToScheduleUniqueName -ex 29/03/2023 1/5/2023
+```
+
+The following is an example of the previous configuration of the 'ProgramOrFolderToScheduleUniqueName' scheduled job:
+```yaml
+ProgramOrFolderToScheduleUniqueName:
+  alias: ProgramOrFolderToScheduleUniqueName
+  days:
+  - monday
+  - friday
+  - saturday
+  exclude: 
+  - 29/03/2023
+  - 1/5/2023
+  include: []
+  path: C:\Users\<username>\Desktop\program.exe
+  status: 'on'
+  time: 08:00
+  time_to_stop: 'off'
+```
+
+To configure an existing program to change days to schedule:
+```
+progscheduler -a ProgramOrFolderToScheduleUniqueName -d everyday
+```
+
+To empty out the 'exclude' and/or include arguments, just add the desired argument without anything after it:
+```
+progscheduler -a ProgramOrFolderToScheduleUniqueName -ex -in
+```
+
+To configure any global configuration just use the argument to change:
+```
+> progscheduler --exit-when-done
+> progscheduler --no-exit-when-done
 ```
 
 To delete an existing configuration:
 ```
-progscheduler -del ThisNAmeRefersToCurrentProgramToSchedule
-```
-
-To add excluded days to 'ThisNAmeRefersToCurrentProgramToSchedule' configuration:
-```
-progscheduler -a ThisNAmeRefersToCurrentProgramToSchedule -ex 29/03/2023 1/5/2023
+progscheduler -del ProgramOrFolderToScheduleUniqueName
 ```
 
 When all desired files are scheduled in the configurations, the following command will run the scheduler considering every configuration made:
