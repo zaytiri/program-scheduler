@@ -177,8 +177,8 @@ progscheduler -a ProgramOrFolderToScheduleUniqueName -ex -in
 
 To configure any global configuration just use the argument to change:
 ```
-> progscheduler --exit-when-done
-> progscheduler --no-exit-when-done
+> progscheduler --exit-when-done        # will close terminal/command prompt window automatically.
+> progscheduler --no-exit-when-done     # will do nothing.
 ```
 
 To delete an existing configuration:
@@ -191,7 +191,7 @@ When all desired files are scheduled in the configurations, the following comman
 progscheduler --run
 ```
 
-Once the progscheduler starts running it will not stop alone, to cancel just run CTRL + C or close the terminal window. The exception to this is if the 'exit-when-done' is enabled.
+Once the progscheduler starts running it will not stop alone, to cancel just run CTRL + C or close the terminal window. The exception to this is if the '--exit-when-done' is enabled.
 
 <a name="support"></a>
 
