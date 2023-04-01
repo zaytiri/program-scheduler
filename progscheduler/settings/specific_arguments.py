@@ -1,10 +1,9 @@
 import argparse
-from collections import Counter
-from datetime import datetime
 
 from margument.argument import Argument
 from margument.arguments import Arguments
 
+from progscheduler.utils.date import Date
 from progscheduler.utils.directory import Directory
 from progscheduler.utils.log import throw, show
 from progscheduler.utils.reflection import get_class_variables, convert_to_dict
@@ -173,12 +172,11 @@ class Specific(Arguments):
     @staticmethod
     def __validate_dates(user_list, current_dates):
         for date in user_list:
-            user_date = date.split('/')
+            validate_date = Date(date=date, date_separator='/')
             try:
-                validate_date = datetime(day=int(user_date[0]), month=int(user_date[1]), year=int(user_date[2]))
-                if validate_date < datetime.combine(datetime.today().date(), datetime.min.time()):
+                if validate_date.lesser_than_today():
                     show('\'' + date + '\': is an old date. It will be ignored.', to_exit=True)
-                current_dates.append(validate_date)
+                current_dates.append(validate_date.converted_date)
             except ValueError:
                 throw('\'' + date + '\': date not valid.')
 
@@ -195,8 +193,17 @@ class Specific(Arguments):
 
     def __get_dates_list(self, file, user_arguments, name):
         dates = []
+
+        if self.include.name not in user_arguments and self.exclude.name not in user_arguments:
+            return dates
+
         if self.alias.name in user_arguments and user_arguments.alias in file:
             try:
+                file_list = file[user_arguments.alias][name]
+                for old_date in file_list:
+                    validate_date = Date(date=old_date, date_separator='/')
+                    if validate_date.lesser_than_today():
+                        file_list.pop(file_list.index(old_date))
                 self.__validate_dates(file[user_arguments.alias][name], dates)
             except KeyError:
                 pass
