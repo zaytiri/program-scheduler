@@ -119,6 +119,7 @@ Open an issue if you need to know how to enable this feature in Linux.
 - **By 'file', it means that the progscheduler can schedule executable files, text files, folders, or any type of file to start/open.**
 - If a specific time is set, the file will only start/open from the moment the progscheduler starts running. Meaning if a file is scheduled to start at 08:00 and the progscheduler only starts running at 08:30, then the next time the file will start is at 08:00 the next day (if the progscheduler is running).
 - If a file needs to be scheduled using mixed configurations, for instance, a folder needs to be opened at startup on monday but on 08:15 on friday, then the same file can be configured but always using different file alias.
+- Any old dates included in 'exclude' and 'include' lists in configurations will be removed whenever these arguments are updated for a specific scheduled job.
 
 ---
 

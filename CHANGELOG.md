@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed
 - Removed
 
+## [2.3.1] - 2023-04-01
+
+### Fixed
+- fixed issue where old dates already configured in 'exclude' and 'include' lists in each scheduled job settings, were being considered when updating these arguments, making an error appear which would block any further updates. Now any old dates already configured will be removed when updating these settings.
+
 ## [2.3.0] - 2023-03-28
 
 ### Added
