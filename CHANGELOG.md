@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed
 - Removed
 
+## [2.3.2] - 2023-04-03
+
+### Fixed
+- fixed internal issue where 'seconds' were not being optional. When passing just hours and minutes, it would give an IndexOutOfBounds error when splitting the time and getting a third non-existent index from the list.
+
 ## [2.3.1] - 2023-04-01
 
 ### Fixed
