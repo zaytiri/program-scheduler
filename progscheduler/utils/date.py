@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Date:
@@ -33,9 +33,11 @@ class Date:
                 year=datetime.min.year,
 
                 hour=int(splitted_time[0]),
-                minute=int(splitted_time[1]),
-                second=int(splitted_time[2])
+                minute=int(splitted_time[1])
             )
+            if len(splitted_time) == 3:
+                self.converted_time += timedelta(seconds=int(splitted_time[2]))
+
             return self.converted_time
         except ValueError:
             pass
