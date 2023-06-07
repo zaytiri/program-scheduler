@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed
 - Removed
 
+## [2.3.3] - 2023-06-07
+
+### Fixed
+- fixed issue where exclude/include dates were not being added when old dates were already defined in configurations.
+
 ## [2.3.2] - 2023-04-03
 
 ### Fixed
