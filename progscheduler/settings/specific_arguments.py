@@ -175,7 +175,7 @@ class Specific(Arguments):
             validate_date = Date(date=date, date_separator='/')
             try:
                 if validate_date.lesser_than_today():
-                    show('\'' + date + '\': is an old date. It will be ignored.', to_exit=True)
+                    show('\'' + date + '\': is an old date. Cannot be added.', to_exit=True)
                 current_dates.append(validate_date.converted_date)
             except ValueError:
                 throw('\'' + date + '\': date not valid.')
@@ -200,11 +200,12 @@ class Specific(Arguments):
         if self.alias.name in user_arguments and user_arguments.alias in file:
             try:
                 file_list = file[user_arguments.alias][name]
+                reduced_file_list = []
                 for old_date in file_list:
                     validate_date = Date(date=old_date, date_separator='/')
-                    if validate_date.lesser_than_today():
-                        file_list.pop(file_list.index(old_date))
-                self.__validate_dates(file[user_arguments.alias][name], dates)
+                    if validate_date.greater_than_today():
+                        reduced_file_list.append(file_list.index(old_date))
+                self.__validate_dates(reduced_file_list, dates)
             except KeyError:
                 pass
 
