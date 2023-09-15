@@ -41,3 +41,10 @@ def open_file(path):
         return True
 
     return False
+
+
+def get_icon_path():
+    path = ''
+    if getattr(sys, 'frozen', False):
+        path = sys._MEIPASS
+    return os.path.join(path, "icon\\logo.ico")

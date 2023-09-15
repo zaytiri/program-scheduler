@@ -6,7 +6,7 @@ from gui.cli_options import install_program, enable_startup_option, go_to_settin
 from gui.layouts.help_layout import get_help_layout
 from gui.layouts.run_layout import get_run_layout
 from gui.layouts.groups_layout import get_groups_layout
-from gui.utils import reset_schedules, check_editable_config, get_list_of_configs
+from gui.utils import reset_schedules, check_editable_config, get_icon_path
 from gui.layouts.view_edit_layout import get_view_edit_layout
 from gui.layouts.add_layout import get_add_layout
 from gui.layouts.options_layout import get_options_layout
@@ -28,7 +28,7 @@ def make_window():
         ]
     ]
 
-    win = sg.Window('Program Scheduler GUI', layout, finalize=True)
+    win = sg.Window('Program Scheduler', layout, finalize=True, icon=get_icon_path())
 
     return win
 
