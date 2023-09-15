@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 
 def get_help_layout():
     urls = {
-        'Github': 'https://github.com/zaytiri/program-scheduler/tree/main',
+        'Github': 'https://github.com/zaytiri/program-scheduler',
         'CLI': 'https://pypi.org/project/progscheduler/',
         'CHANGELOG.md': 'https://github.com/zaytiri/program-scheduler/blob/main/CHANGELOG.md',
         'README.md': 'https://github.com/zaytiri/program-scheduler/blob/main/README.md'
