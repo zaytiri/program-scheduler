@@ -13,6 +13,7 @@ class Specific(Arguments):
     are_configs_saved = False
 
     def __init__(self):
+        self.is_gui = None
         self.alias = Argument(name='alias',
                               abbreviation_name='-a',
                               full_name='--alias',
@@ -148,6 +149,9 @@ class Specific(Arguments):
         self.__validate_days(settings[0].user_arguments)
         self.__validate_exclude_include_dates(settings[0].settings_from_file, settings[0].user_arguments)
 
+    def set_is_gui(self, is_gui):
+        self.is_gui = is_gui
+
     def __validate_existence_of_alias(self, user_arguments):
         is_configurable = False
         for var in get_class_variables(self):
@@ -169,16 +173,15 @@ class Specific(Arguments):
             elif user_arguments.days[0] == 'everyday':
                 user_arguments.days = self.__get_specific_days('everyday')
 
-    @staticmethod
-    def __validate_dates(user_list, current_dates):
+    def __validate_dates(self, user_list, current_dates):
         for date in user_list:
             validate_date = Date(date=date, date_separator='/')
             try:
                 if validate_date.lesser_than_today():
-                    show('\'' + date + '\': is an old date. Cannot be added.', to_exit=True)
+                    show('\'' + date + '\': is an old date. Cannot be added.', to_exit=not self.is_gui)
                 current_dates.append(validate_date.converted_date)
             except ValueError:
-                throw('\'' + date + '\': date not valid.')
+                throw('\'' + date + '\': date not valid.', to_exit=not self.is_gui)
 
     def __validate_exclude_include_dates(self, file, user_arguments):
         include_dates = self.__get_dates_list(file, user_arguments, self.include.name)
@@ -186,10 +189,14 @@ class Specific(Arguments):
 
         duplicate_dates = set(include_dates) & set(exclude_dates)
         if duplicate_dates:
-            message = 'Following dates will exist on both exclude and include lists:'
+            message = 'Following dates cannot exist on both exclude and include lists:'
             for dup in duplicate_dates:
                 message += '\n\t\t   - ' + dup.strftime('%d/%m/%Y')
-            throw(message)
+                if self.include.name in user_arguments:
+                    user_arguments.include = ''
+                elif self.exclude.name in user_arguments:
+                    user_arguments.exclude = ''
+            throw(message, to_exit=not self.is_gui)
 
     def __get_dates_list(self, file, user_arguments, name):
         dates = []
@@ -204,7 +211,7 @@ class Specific(Arguments):
                 for old_date in file_list:
                     validate_date = Date(date=old_date, date_separator='/')
                     if validate_date.greater_than_today():
-                        reduced_file_list.append(file_list.index(old_date))
+                        reduced_file_list.append(old_date)
                 self.__validate_dates(reduced_file_list, dates)
             except KeyError:
                 pass
@@ -218,7 +225,7 @@ class Specific(Arguments):
     def __validate_path(self, user_arguments):
         if self.path.name in user_arguments:
             if not self.__given_argument_path_exists(user_arguments.path):
-                throw('\'' + user_arguments.path + '\' path does not exist.')
+                throw('\'' + user_arguments.path + '\' path does not exist.', to_exit=not self.is_gui)
 
     def __get_specific_days(self, days_specified):
         days = []
