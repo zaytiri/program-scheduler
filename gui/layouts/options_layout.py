@@ -8,7 +8,8 @@ from gui.api import list_global_configs
 def get_options_layout():
 
     es_text_value = 'If "ENABLE STARTUP OPTION" is selected, two folders will be opened which mean that you will need to copy the file called ' \
-           '"program-scheduler.bat" to the other opened folder. '
+           '"program-scheduler.bat" to the other opened folder. You can also either copy this executable to this "Startup" folder or add this ' \
+                    'executable as a schedule.'
     wrapper = textwrap.TextWrapper(width=90)
     enable_startup_help_text = wrapper.fill(text=es_text_value)
 
