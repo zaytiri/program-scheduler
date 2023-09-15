@@ -77,4 +77,4 @@ class Generic(Arguments):
     def process_arguments(self, settings):
         self.schedules.set_command_args(settings[0].file.path)
         self.settings.set_command_args(settings[1].file.path)
-        self.delete.set_command_args((settings[0].user_arguments, settings[0].file.path))
+        self.delete.set_command_args((settings[0].user_arguments, settings[0].file))
