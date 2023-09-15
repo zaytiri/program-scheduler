@@ -169,8 +169,7 @@ class Specific(Arguments):
             elif user_arguments.days[0] == 'everyday':
                 user_arguments.days = self.__get_specific_days('everyday')
 
-    @staticmethod
-    def __validate_dates(user_list, current_dates):
+    def __validate_dates(self, user_list, current_dates):
         for date in user_list:
             validate_date = Date(date=date, date_separator='/')
             try:
@@ -186,10 +185,14 @@ class Specific(Arguments):
 
         duplicate_dates = set(include_dates) & set(exclude_dates)
         if duplicate_dates:
-            message = 'Following dates will exist on both exclude and include lists:'
+            message = 'Following dates cannot exist on both exclude and include lists:'
             for dup in duplicate_dates:
                 message += '\n\t\t   - ' + dup.strftime('%d/%m/%Y')
-            throw(message)
+                if self.include.name in user_arguments:
+                    user_arguments.include = ''
+                elif self.exclude.name in user_arguments:
+                    user_arguments.exclude = ''
+            throw(message, to_exit=not self.is_gui)
 
     def __get_dates_list(self, file, user_arguments, name):
         dates = []
@@ -204,7 +207,7 @@ class Specific(Arguments):
                 for old_date in file_list:
                     validate_date = Date(date=old_date, date_separator='/')
                     if validate_date.greater_than_today():
-                        reduced_file_list.append(file_list.index(old_date))
+                        reduced_file_list.append(old_date)
                 self.__validate_dates(reduced_file_list, dates)
             except KeyError:
                 pass
