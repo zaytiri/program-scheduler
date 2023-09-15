@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 
 from gui.api import list_configs
 
@@ -23,7 +24,7 @@ def get_list_of_configs(values):
 
 
 def check_editable_config(window, values, value_name, window_key, is_list, to_edit):
-    current_values = get_list_of_configs(values)[value_name]
+    current_values = get_list_of_configs(values)[value_name.replace('-', '_')]
     input_value = window[window_key].get()
 
     if is_list:

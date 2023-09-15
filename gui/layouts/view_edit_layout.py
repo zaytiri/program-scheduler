@@ -29,12 +29,12 @@ def get_view_edit_layout():
             sg.Combo(['on', 'off'], key='edit_status', default_value='')
         ],
         [
-            sg.Text('time', tooltip='input the time this scheduler should start.', size=(10, 1)),
+            sg.Text('time to start', tooltip='input the time this scheduler should start.', size=(10, 1)),
             sg.Input('', key='edit_time', expand_x=True),
             sg.Button('STARTUP')
         ],
         [
-            sg.Text('time_to_stop', tooltip='input the time after this scheduler should not run.', size=(10, 1)),
+            sg.Text('time to stop', tooltip='input the time after this scheduler should not run.', size=(10, 1)),
             sg.Input('', key='edit_stop', expand_x=True),
             sg.Button('OFF')
         ],

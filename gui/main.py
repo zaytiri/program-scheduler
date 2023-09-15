@@ -1,3 +1,4 @@
+import sys
 import webbrowser
 
 import PySimpleGUI as sg
@@ -77,7 +78,7 @@ while True:
         check_editable_config(window, values, 'path', 'edit_path', False, to_edit)
         check_editable_config(window, values, 'status', 'edit_status', False, to_edit)
         check_editable_config(window, values, 'time', 'edit_time', False, to_edit)
-        check_editable_config(window, values, 'time_to_stop', 'edit_stop', False, to_edit)
+        check_editable_config(window, values, 'time-to-stop', 'edit_stop', False, to_edit)
 
         edit_schedule(values['schedule'][0], to_edit)
         reset_schedules(window)
