@@ -25,6 +25,12 @@ For the progscheduler to work as intended, the startup feature includes having t
 
 A scheduled file can also be any type of file including folders. See [Notes](#notes).
 
+<a name="gui"></a>
+
+## GUI
+
+Coming soon...
+
 <a name="features"></a>
 
 ## Features
@@ -101,9 +107,6 @@ Open an issue if you need to know how to enable this feature in Linux.
 | -ex                                  | --exclude                            | **OPTIONAL**                             | any dates given will be excluded from the job, meaning a specific scheduled job will not run in any date specified in excluded days.                                                                  |
 | -in                                  | --include                            | **OPTIONAL**                             | any dates given will be included in a job, meaning a specific scheduled job will run in any date specified in included days.                                                                          |
 | --exit-when-done/--no-exit-when-done | --exit-when-done/--no-exit-when-done | **OPTIONAL**                             | boolean value. if specified, the program window will exit automatically when all scheduled jobs finished that particular day. default value: false                                                    |
-
-
-
 
 <a name="important"></a>
 
