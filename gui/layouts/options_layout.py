@@ -32,6 +32,6 @@ def get_options_layout():
     return [
         [sg.Checkbox("Set exit when scheduler is done", default=exit_wd, enable_events=True, key='exit_when_done')],
         [sg.Combo(sg.theme_list(), default_value=sg.theme(), s=(15, 22), enable_events=True, readonly=True, k='-COMBO-')],
-        [sg.Button('EDIT')],
+        [sg.Button('SAVE')],
         [sg.Frame('CLI Advanced Options', layout=cli_options, font='Any 8', title_color='white', expand_x=True, expand_y=True)]
     ]
