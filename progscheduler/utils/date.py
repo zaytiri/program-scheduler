@@ -46,7 +46,7 @@ class Date:
         if self.converted_date is None:
             return False
 
-        if self.converted_date > datetime.combine(datetime.today().date(), self.converted_date.time()):
+        if self.converted_date >= datetime.combine(datetime.today().date(), self.converted_date.time()):
             return True
         return False
 
