@@ -1,6 +1,6 @@
 [![Downloads](https://pepy.tech/badge/progscheduler)](https://pepy.tech/project/progscheduler)
 
-# Program Scheduler
+# Program Scheduler GUI + CLI
 
 A simple way of scheduling files at startup or at specific time of the day. The file can also be scheduled to start at specific days of the week or every day. 
 
@@ -29,7 +29,12 @@ A scheduled file can also be any type of file including folders. See [Notes](#no
 
 ## GUI
 
-Coming soon...
+Guide coming soon...
+
+Some images for current interface:
+![1](https://github.com/zaytiri/program-scheduler/blob/main/readme-imgs/1.png)
+![1](https://github.com/zaytiri/program-scheduler/blob/main/readme-imgs/2.png)
+![1](https://github.com/zaytiri/program-scheduler/blob/main/readme-imgs/3.png)
 
 <a name="features"></a>
 
