@@ -1,5 +1,4 @@
 import os
-import sys
 
 from progscheduler.jobs import open_program
 from progscheduler.settings.manager import Manager
@@ -11,8 +10,6 @@ from progscheduler.scheduler import Scheduler
 def main(custom_args=None, is_gui=False):
     arguments = get_processed_arguments(custom_args, is_gui)
 
-    validate_global_settings(arguments)
-
     run_scheduler(arguments, is_gui)
 
 
@@ -22,14 +19,16 @@ def get_processed_arguments(custom_args, is_gui):
 
 
 def validate_global_settings(arguments):
-    if not arguments['Generic'].run.value:
-        sys.exit()
-
     if arguments['Generic'].exit_when_done.value:
         show('Option: \"exit-when-done\" is enabled. This windows will close automatically when all jobs are done.')
 
 
 def run_scheduler(arguments, is_gui):
+    validate_global_settings(arguments)
+
+    if not arguments['Generic'].run.value:
+        return
+
     show('The program will now start running the scheduler.\n\n\t\t\t*NOTE:* While this is running this window should not be closed. If you are '
          'certain that all scheduled jobs are already finished, then it is safe to close this window.')
 
@@ -38,9 +37,13 @@ def run_scheduler(arguments, is_gui):
     for program in arguments['Specific']:
         do_scheduled_job(scheduler, arguments['Specific'][program])
 
-    scheduler.run(arguments['Generic'].exit_when_done.value)
+    exit_program = arguments['Generic'].exit_when_done.value
+    if is_gui:
+        exit_program = is_gui
 
-    if arguments['Generic'].exit_when_done.value:
+    scheduler.run(exit_program)
+
+    if arguments['Generic'].exit_when_done.value or is_gui:
         os.system('title kill_current_terminal_window')
         os.system(f'taskkill /f /fi "WINDOWTITLE eq kill_current_terminal_window"')
 
