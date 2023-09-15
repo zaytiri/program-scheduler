@@ -8,17 +8,17 @@ from progscheduler.utils.log import show
 from progscheduler.scheduler import Scheduler
 
 
-def main():
-    arguments = get_processed_arguments()
+def main(custom_args=None, is_gui=False):
+    arguments = get_processed_arguments(custom_args, is_gui)
 
     validate_global_settings(arguments)
 
-    run_scheduler(arguments)
+    run_scheduler(arguments, is_gui)
 
 
-def get_processed_arguments():
-    manager = Manager()
-    return manager.configure_arguments()
+def get_processed_arguments(custom_args, is_gui):
+    manager = Manager(is_gui)
+    return manager.configure_arguments(custom_args)
 
 
 def validate_global_settings(arguments):
@@ -29,7 +29,7 @@ def validate_global_settings(arguments):
         show('Option: \"exit-when-done\" is enabled. This windows will close automatically when all jobs are done.')
 
 
-def run_scheduler(arguments):
+def run_scheduler(arguments, is_gui):
     show('The program will now start running the scheduler.\n\n\t\t\t*NOTE:* While this is running this window should not be closed. If you are '
          'certain that all scheduled jobs are already finished, then it is safe to close this window.')
 

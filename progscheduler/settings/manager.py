@@ -28,13 +28,16 @@ def get_path():
 class Manager:
     is_to_configure = False
 
-    def __init__(self):
+    def __init__(self, is_gui):
+        self.is_gui = is_gui
         self.args = argparse.ArgumentParser()
         self.args.add_argument('--version', action='version', version='%(prog)s ' + str(get_version()))
 
-    def configure_arguments(self):
+    def configure_arguments(self, custom_args):
         # manage specific configurations
         specific = Specific()
+        specific.set_is_gui(self.is_gui)
+
         local_settings = RepeatableSettings(path=os.path.join(get_path(), 'local.yaml'),
                                             program_arguments=specific,
                                             options=Options(show_saved=True, save_main_arg_exists=True))
@@ -46,4 +49,4 @@ class Manager:
                                                 options=Options(show_saved=True, save_different=True))
 
         settings_processor = SettingsProcessor([local_settings, global_settings], self.args)
-        return settings_processor.run()
+        return settings_processor.run(custom_args)
