@@ -29,12 +29,61 @@ A scheduled file can also be any type of file including folders. See [Notes](#no
 
 ## GUI
 
-Guide coming soon...
+### First time
 
-Some images for current interface:
+1. When using the GUI for the first time, you need to have the CLI installed. You can do this by:
+- On the GUI:
+  - Go to 'Options' > Click on 'INSTALL CLI'. The CLI should be installed and any information will be displayed in the 'Run' tab.
+- On the Command Propmt:
+  - Follow [Instalation](#installation) section in this README file.
+
+2. After everything's installed, you will have no configurations defined so you need to add some. You can do this by going to the 'Add' tab.
+
+### _Run_
+
+Here you can see what the program is doing when running the defined schedules.
+
+If necessary, you can also manually run the shedules, in any given time, by clicking the 'RUN' button.
+
 ![1](https://github.com/zaytiri/program-scheduler/blob/main/readme-imgs/1.png)
-![1](https://github.com/zaytiri/program-scheduler/blob/main/readme-imgs/2.png)
-![1](https://github.com/zaytiri/program-scheduler/blob/main/readme-imgs/3.png)
+
+### _Groups_
+
+Ths feature will be comming in the future.
+
+### _View/Edit_
+
+Here you can view all your defined schedules and their respective configurations by selecting any entry in the left list. You can edit any configuration in this window, always taking in consideration the limits and options the program offers, displayed in the [Usage](#usage) section.
+
+You can also delete any configuration when selected.
+
+For more information, some input fields have tooltips that can be viewed by hovering the mouse over them.
+
+![4](https://github.com/zaytiri/program-scheduler/blob/main/readme-imgs/4.png)
+
+When selecting 'browser' entry:<br>
+![4.1](https://github.com/zaytiri/program-scheduler/blob/main/readme-imgs/4.1.png)
+
+### _Add_
+
+In the following tab, you can add a new schedule by providing:
+- 'alias': a unique name to identify this schedule;
+- 'path': the path of the executable to be scheduled. The following sections are important to know: [Important](#important) and [Notes](#notes). You can 'Browse' through your files and/or you can also modify the input field as needed.
+
+![2](https://github.com/zaytiri/program-scheduler/blob/main/readme-imgs/2.png)
+
+### _Options_
+
+You can also set multiple options such as the GUI theme. 
+
+- 'Set exit when scheduler is done': If enabled, means that the window where the schedules are running will exit when they are all finished. This does not happen when schedules are run manually through the 'Run' tab.
+- Theme: This option is not saved, meaning it will not persist through different instances.
+- 'INSTALL CLI': It will install the progscheduler program through the command line in the background. This is needed because it contains all the features used by the GUI.
+- 'ENABLE STARTUP OPTION': Two folders will be opened which mean that you will need to copy the file called "program-scheduler.bat" to the other opened folder. You can also either copy this executable to this "Startup" folder (to start this GUI automatically) or add this executable as a schedule.
+  - This needs to be done if you want the main feature of the program, which is automatically start any file when the computer boots up.
+- 'OPEN CONFIGURATIONS FOLDER': It will open the folder where all schedules configurations are saved. This file should not be modified unless you kow how to modify it.
+
+![3](https://github.com/zaytiri/program-scheduler/blob/main/readme-imgs/3.png)
 
 <a name="features"></a>
 
@@ -66,6 +115,7 @@ Any unimplemented features will be developed by user request, so if you want any
 [Python 3](https://www.python.org/downloads/) must be installed.
 
 Must be used the latest version of [margument](https://pypi.org/project/margument/) library.
+
 <a name="installation"></a>
 
 ## Installation
@@ -94,7 +144,7 @@ This will open a command prompt window automatically when the computer boots up.
 ### Linux Users
 Open an issue if you need to know how to enable this feature in Linux.
 
-
+<a name="usage"></a>
 ## Usage
 
 | Command (shortcut)                   | Command (full)                       | Type                                     | Description                                                                                                                                                                                           |
@@ -116,9 +166,9 @@ Open an issue if you need to know how to enable this feature in Linux.
 <a name="important"></a>
 
 ### Important
-- -a command is always required when configuring.
-- -p, -d command is required only the first time to configure a file to schedule.
-- If the file is an executable file, **it's recommended to input the absolute path to a shortcut** instead of the original file location because if so, the executable file **may not start at all**. If a shortcut is used, the extension '.lnk' is needed. For instance: 'C:\Users\<!username>\Desktop\ExecutableShortcutWithEXEExtension.lnk'
+1. -a command is always required when configuring.
+2. -p, -d command is required only the first time to configure a file to schedule.
+3. If the file is an executable file, **it's recommended to input the absolute path to a shortcut** instead of the original file location because if so, the executable file **may not start at all**. If a shortcut is used, the extension '.lnk' is needed. For instance: 'C:\Users\<!username>\Desktop\ExecutableShortcutWithEXEExtension.lnk'
 
 <a name="notes"></a>
 
