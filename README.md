@@ -49,7 +49,7 @@ If necessary, you can also manually run the shedules, in any given time, by clic
 
 ### _Groups_
 
-Ths feature will be comming in the future.
+Ths feature will be coming in the future.
 
 ### _View/Edit_
 
