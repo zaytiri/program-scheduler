@@ -268,3 +268,5 @@ Once the progscheduler starts running it will not stop alone, to cancel just run
 ## Status
 
 This project was developed for both need and educational purposes, so I'm available to maintain this project, so any bugs, suggestions, new features, improvements, etc, don't hesitate to ask, open an issue or a pull request.
+
+This program was first created because the current Windows' Task Scheduler is very complex and I could not find a way to open/start any file/executable at computer startup on specific days of the week with exceptions, if needed. I was looking to also have more control over how I want to schedule different files on different circumstances and what features I could add.
